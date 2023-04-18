@@ -1,0 +1,16 @@
+
+package payroll.main;
+
+import javax.swing.JFrame;
+
+public class PanelSwitcher
+{
+    public static Switch(JFrame newPanel, JFrame oldPanel)
+    {
+        // EmployeeWindow main = new EmployeeWindow(usr, frname, lsname, opt);
+        newPanel.setExtendedState(6);
+        newPanel.setLocationRelativeTo(null);
+        newPanel.setVisible(true);
+        oldPanel.dispose();
+    }
+}
