@@ -6,74 +6,46 @@
 package payroll.main;
 
 import java.awt.event.KeyEvent;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Toolkit;
+import java.awt.*;
+//import java.awt.Color;
+//import java.awt.Cursor;
+//import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
 import java.sql.*;
-import java.util.Calendar;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
+import java.util.logging.*;
+//import java.util.Properties;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 import javax.swing.JFrame;
+import payroll.basecodes.*;
 
 /**
  *
  * @author ASUS
  */
-public class login extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
 
-    Connection conn;
-    PreparedStatement pst;
-    ResultSet rs;
     Properties prop = new Properties();
+    DataType[] values;
 
     /**
      * Creates new form login
      */
-    public login() {
+    public Login() {
         initComponents();
         setLocationRelativeTo(null);
-        ShowTime();
+        RealTime.CurrentTime(clock);
         try {
             Config();
         } catch (Exception ex) {
-            Logger.getLogger(login.class.getName()).log(Level.SEVERE, null, ex);
+            AppWindow.ShowNotification(ex);
         }
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
-    }
-
-    public void ShowTime() {
-        // <editor-fold defaultstate="collapsed" desc="For Time">
-        int run = 0;
-        new Thread() {
-            public void run() {
-                while (run == 0) {
-                    Calendar cal = new GregorianCalendar();
-                    int second, minute, hour, am_pm;
-                    second = cal.get(Calendar.SECOND);
-                    minute = cal.get(Calendar.MINUTE);
-                    hour = cal.get(Calendar.HOUR);
-                    am_pm = cal.get(Calendar.AM_PM);
-
-                    String AM_PM = "";
-
-                    if (am_pm == 1) {
-                        AM_PM = "PM";
-                    } else {
-                        AM_PM = "AM";
-                    }
-                    clock.setText(hour + ":" + minute + ":" + second + " " + AM_PM);
-                }
-            }
-        }.start();
-        // </editor-fold>
     }
 
     public void Config() throws Exception {
@@ -102,25 +74,46 @@ public class login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Some Field is not Filled");
         } else {
 
-            String[] values = new String[2];
+            values = new DataType[2];
+            values[0] = new DataType(inputUN.getText(), String.class);
+            values[1] = new DataType(inputPass.getText(), String.class);
 
-            result = Database.SendQuery("", values);
+            result = Database.SendQuery("SELECT * FROM " + Database.accountView + " WHERE ID = ? AND Password = ?;", values);
 
             try {
                 if (result.next()) {
-                    EmployeeInfo info = new EmployeeInfo(
-                            result.getString("id"),
-                            result.getString("firstName"),
-                            result.getString("middleName"),
-                            result.getString("lastName")
-                    );
-                    
-                    String accessLevel = result.getString("accessLevel");
-                    
-                    
+                    EmployeeInfo employeeInfo = new EmployeeInfo(result.getString("ID"), result.getString("Full Name"));
+
+                    String accessLevel = result.getString("Access Level");
+
+                    JFrame window;
+
+                    switch (accessLevel) {
+                        case ("Admin"):
+                            window = new AdminWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name());
+                            AppWindow.Switch(window, this);
+                            break;
+//                        case("Manager"):
+//                            window = new ManagerWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_first_name(), EmployeeInfo.getEmployee_last_name(), "");
+//                            AppWindow.Switch(window, this);
+//                            break;
+//                        case("Accountant"):
+//                            window = new AccountantWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_first_name(), EmployeeInfo.getEmployee_last_name(), "");
+//                            AppWindow.Switch(window, this);
+//                            break;
+                        case ("Employee"):
+                            window = new EmployeeWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name());
+                            AppWindow.Switch(window, this);
+                            break;
+                    }
+
+                    ProcessLog.LogIn(EmployeeInfo.getEmployee_id());
+
+                } else {
+                    AppWindow.ShowNotification("Wrong user or password");
                 }
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(null, e);
+                AppWindow.ShowNotification(e);
             }
 
         }
@@ -361,288 +354,7 @@ public class login extends javax.swing.JFrame {
         // <editor-fold defaultstate="collapsed" desc="Access level Idintifier">
         //SELECT * FROM payroll_schema.timemonitor_tbl where id  = 1001 ORDER BY date_in DESC;
         //sql command to select row
-        if (inputUN.getText().equals("") || inputPass.getText().equals("")) {
-            JOptionPane.showMessageDialog(null, "Some Field is not Filled");
-        } else {
-            try {
-                conn = Database.Connect();
-                pst = conn.prepareStatement("SELECT * FROM payroll_schema.account_tbl WHERE username = ? and password = ? ;");
-                pst.setString(1, inputUN.getText());
-                pst.setString(2, inputPass.getText());
-                rs = pst.executeQuery();
-
-                java.util.Date gre = GregorianCalendar.getInstance().getTime();
-                SimpleDateFormat mf = new SimpleDateFormat("MMyyyy");
-                String dt = mf.format(gre);
-                String mnth = dt.substring(0, 2);
-                String yr = dt.substring(2, 6);
-                Integer m = Integer.parseInt(mnth);
-                Integer y = Integer.parseInt(yr);
-                String code = m + "" + y + "PYRLL";
-
-                if (rs.next()) {
-                    String opt = rs.getString("division");
-                    String usr = rs.getString("emp_acc_id");
-                    String frname = rs.getString("firstname");
-                    String lsname = rs.getString("lastname");
-                    emp.empid = rs.getString("emp_acc_id");
-                    emp.empfn = rs.getString("firstname");
-                    emp.empln = rs.getString("lastname");
-
-                    if (opt.equals("Admin")) {
-                        AdminWindow main = new AdminWindow(usr, frname, lsname, opt);
-                        main.setLocationRelativeTo(null);
-                        main.setExtendedState(6);
-                        main.setVisible(true);
-                        this.dispose();
-
-                        Date cd = GregorianCalendar.getInstance().getTime();
-                        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                        String dateString = df.format(cd);
-
-                        Date d = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        String timeString = sdf.format(d);
-
-                        String ds = dateString;
-                        String ts = timeString;
-                        time.datein = ds;
-                        time.timein = ts;
-
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                            pst.setString(1, usr);
-                            rs = pst.executeQuery();
-                            while (rs.next()) {
-                                String s = rs.getString("date_in");
-                                if (!(ds.equals(s))) {
-                                    try {
-                                        pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                        pst.setString(1, usr);
-                                        rs = pst.executeQuery();
-                                        while (rs.next()) {
-                                            String id = rs.getString("emp_id");
-                                            int f = rs.getInt("worked_day");
-                                            int a = f + 1;
-                                            String h = String.valueOf(a);
-                                            try {
-                                                pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                pst.setString(1, h);
-                                                pst.setString(2, usr);
-                                                pst.execute();
-                                            } catch (Exception e) {
-                                                JOptionPane.showMessageDialog(null, e);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        JOptionPane.showMessageDialog(null, e);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                            pst.execute();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        //this.dispose();
-                    }
-
-                    if (opt.equals("Manager")) {
-                        ManagerWindow main = new ManagerWindow(usr, frname, lsname, opt);
-                        main.setLocationRelativeTo(null);
-                        main.setExtendedState(6);
-                        main.setVisible(true);
-                        this.dispose();
-
-                        Date cd = GregorianCalendar.getInstance().getTime();
-                        DateFormat df = DateFormat.getDateInstance();
-                        String dateString = df.format(cd);
-
-                        Date d = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        String timeString = sdf.format(d);
-
-                        String ds = dateString;
-                        String ts = timeString;
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                            pst.setString(1, usr);
-                            rs = pst.executeQuery();
-                            while (rs.next()) {
-                                String s = rs.getString("date_in");
-                                if (!(ds.equals(s))) {
-                                    try {
-                                        pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                        pst.setString(1, usr);
-                                        rs = pst.executeQuery();
-                                        while (rs.next()) {
-                                            String id = rs.getString("emp_id");
-                                            int f = rs.getInt("worked_day");
-                                            int a = f + 1;
-                                            String h = String.valueOf(a);
-                                            try {
-                                                pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                pst.setString(1, h);
-                                                pst.setString(2, usr);
-                                                pst.execute();
-                                            } catch (Exception e) {
-                                                JOptionPane.showMessageDialog(null, e);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        JOptionPane.showMessageDialog(null, e);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                            pst.execute();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        //this.dispose();
-                    }
-
-                    if (opt.equals("Accountant")) {
-                        AccountantWindow main = new AccountantWindow(usr, frname, lsname, opt);
-                        main.setLocationRelativeTo(null);
-                        main.setVisible(true);
-                        this.dispose();
-
-                        Date cd = GregorianCalendar.getInstance().getTime();
-                        DateFormat df = DateFormat.getDateInstance();
-                        String dateString = df.format(cd);
-
-                        Date d = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        String timeString = sdf.format(d);
-
-                        String ds = dateString;
-                        String ts = timeString;
-
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                            pst.setString(1, usr);
-                            rs = pst.executeQuery();
-                            while (rs.next()) {
-                                String s = rs.getString("date_in");
-                                if (!(ds.equals(s))) {
-                                    try {
-                                        pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                        pst.setString(1, usr);
-                                        rs = pst.executeQuery();
-                                        while (rs.next()) {
-                                            String id = rs.getString("emp_id");
-                                            int f = rs.getInt("worked_day");
-                                            int a = f + 1;
-                                            String h = String.valueOf(a);
-                                            try {
-                                                pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                pst.setString(1, h);
-                                                pst.setString(2, usr);
-                                                pst.execute();
-                                            } catch (Exception e) {
-                                                JOptionPane.showMessageDialog(null, e);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        JOptionPane.showMessageDialog(null, e);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                            pst.execute();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        //this.dispose();
-                    }
-
-                    if (opt.equals("Employee")) {
-                        EmployeeWindow main = new EmployeeWindow(usr, frname, lsname, opt);
-                        main.setExtendedState(6);
-                        main.setLocationRelativeTo(null);
-                        main.setVisible(true);
-                        this.dispose();
-
-                        Date cd = GregorianCalendar.getInstance().getTime();
-                        DateFormat df = DateFormat.getDateInstance();
-                        String dateString = df.format(cd);
-
-                        Date d = new Date();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        String timeString = sdf.format(d);
-
-                        String ds = dateString;
-                        String ts = timeString;
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                            pst.setString(1, usr);
-                            rs = pst.executeQuery();
-                            while (rs.next()) {
-                                String s = rs.getString("date_in");
-                                if (!(ds.equals(s))) {
-                                    try {
-                                        pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                        pst.setString(1, usr);
-                                        rs = pst.executeQuery();
-                                        while (rs.next()) {
-                                            String id = rs.getString("emp_id");
-                                            int f = rs.getInt("worked_day");
-                                            int a = f + 1;
-                                            String h = String.valueOf(a);
-                                            try {
-                                                pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                pst.setString(1, h);
-                                                pst.setString(2, usr);
-                                                pst.execute();
-                                            } catch (Exception e) {
-                                                JOptionPane.showMessageDialog(null, e);
-                                            }
-                                        }
-                                    } catch (Exception e) {
-                                        JOptionPane.showMessageDialog(null, e);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        try {
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                            pst.execute();
-                        } catch (Exception e) {
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        //this.dispose();
-                    }
-
-                } else {
-                    JOptionPane.showMessageDialog(rootPane, "ID or Password is incorrect", "Error", 1);
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
-        }
+        AuthenticateLogin();
         // </editor-fold>
     }//GEN-LAST:event_jPanel3MouseReleased
 
@@ -700,579 +412,14 @@ public class login extends javax.swing.JFrame {
     private void inputPassKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputPassKeyReleased
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            // <editor-fold defaultstate="collapsed" desc="Access level Idintifier">
-            if (inputUN.getText().equals("") || inputPass.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Some Field is not Filled");
-            } else {
-                try {
-                    conn = db.db();
-                    pst = conn.prepareStatement("SELECT * FROM payroll_schema.account_tbl WHERE username = ? and password = ? ;");
-                    pst.setString(1, inputUN.getText());
-                    pst.setString(2, inputPass.getText());
-                    rs = pst.executeQuery();
-
-                    if (rs.next()) {
-                        String opt = rs.getString("division");
-                        String usr = rs.getString("emp_acc_id");
-                        String frname = rs.getString("firstname");
-                        String lsname = rs.getString("lastname");
-                        emp.empid = rs.getString("emp_acc_id");
-                        emp.empfn = rs.getString("firstname");
-                        emp.empln = rs.getString("lastname");
-
-                        java.util.Date gre = GregorianCalendar.getInstance().getTime();
-                        SimpleDateFormat mf = new SimpleDateFormat("MMyyyy");
-                        String dt = mf.format(gre);
-                        String mnth = dt.substring(0, 2);
-                        String yr = dt.substring(2, 6);
-                        Integer m = Integer.parseInt(mnth);
-                        Integer y = Integer.parseInt(yr);
-                        String code = m + "" + y + "PYRLL";
-
-                        if (opt.equals("Admin")) {
-                            AdminWindow main = new AdminWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setExtendedState(6);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            time.datein = ds;
-                            time.timein = ts;
-
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Manager")) {
-                            ManagerWindow main = new ManagerWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setExtendedState(6);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Accountant")) {
-                            AccountantWindow main = new AccountantWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Employee")) {
-                            EmployeeWindow main = new EmployeeWindow(usr, frname, lsname, opt);
-                            main.setExtendedState(6);
-                            main.setLocationRelativeTo(null);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "ID or Password is incorrect", "Error", 1);
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            }
-            // </editor-fold>
+            AuthenticateLogin();
         }
     }//GEN-LAST:event_inputPassKeyReleased
 
     private void inputUNKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inputUNKeyReleased
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            // <editor-fold defaultstate="collapsed" desc="Access level Idintifier">
-            if (inputUN.getText().equals("") || inputPass.getText().equals("")) {
-                JOptionPane.showMessageDialog(null, "Some Field is not Filled");
-            } else {
-                try {
-                    conn = db.db();
-                    pst = conn.prepareStatement("SELECT * FROM payroll_schema.account_tbl WHERE username = ? and password = ? ;");
-                    pst.setString(1, inputUN.getText());
-                    pst.setString(2, inputPass.getText());
-                    rs = pst.executeQuery();
-
-                    if (rs.next()) {
-                        String opt = rs.getString("division");
-                        String usr = rs.getString("emp_acc_id");
-                        String frname = rs.getString("firstname");
-                        String lsname = rs.getString("lastname");
-                        emp.empid = rs.getString("emp_acc_id");
-                        emp.empfn = rs.getString("firstname");
-                        emp.empln = rs.getString("lastname");
-
-                        java.util.Date gre = GregorianCalendar.getInstance().getTime();
-                        SimpleDateFormat mf = new SimpleDateFormat("MMyyyy");
-                        String dt = mf.format(gre);
-                        String mnth = dt.substring(0, 2);
-                        String yr = dt.substring(2, 6);
-                        Integer m = Integer.parseInt(mnth);
-                        Integer y = Integer.parseInt(yr);
-                        String code = m + "" + y + "PYRLL";
-
-                        if (opt.equals("Admin")) {
-                            AdminWindow main = new AdminWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setExtendedState(6);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            time.datein = ds;
-                            time.timein = ts;
-
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Manager")) {
-                            ManagerWindow main = new ManagerWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setExtendedState(6);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Accountant")) {
-                            AccountantWindow main = new AccountantWindow(usr, frname, lsname, opt);
-                            main.setLocationRelativeTo(null);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                        if (opt.equals("Employee")) {
-                            EmployeeWindow main = new EmployeeWindow(usr, frname, lsname, opt);
-                            main.setExtendedState(6);
-                            main.setLocationRelativeTo(null);
-                            main.setVisible(true);
-                            this.dispose();
-
-                            Date cd = GregorianCalendar.getInstance().getTime();
-                            DateFormat df = DateFormat.getDateInstance();
-                            String dateString = df.format(cd);
-
-                            Date d = new Date();
-                            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                            String timeString = sdf.format(d);
-
-                            String ds = dateString;
-                            String ts = timeString;
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl where id  = ? AND status = 'Logged Out' ORDER BY date_in DESC Limit 1;");
-                                pst.setString(1, usr);
-                                rs = pst.executeQuery();
-                                while (rs.next()) {
-                                    String s = rs.getString("date_in");
-                                    if (!(ds.equals(s))) {
-                                        try {
-                                            pst = conn.prepareStatement("SELECT * FROM payroll_schema.payroll_tbl WHERE emp_id = ? and pr_code = '" + code + "';");
-                                            pst.setString(1, usr);
-                                            rs = pst.executeQuery();
-                                            while (rs.next()) {
-                                                String id = rs.getString("emp_id");
-                                                int f = rs.getInt("worked_day");
-                                                int a = f + 1;
-                                                String h = String.valueOf(a);
-                                                try {
-                                                    pst = conn.prepareStatement("UPDATE payroll_schema.payroll_tbl SET worked_day = ? WHERE emp_id = ? and pr_code = '" + code + "';");
-                                                    pst.setString(1, h);
-                                                    pst.setString(2, usr);
-                                                    pst.execute();
-                                                } catch (Exception e) {
-                                                    JOptionPane.showMessageDialog(null, e);
-                                                }
-                                            }
-                                        } catch (Exception e) {
-                                            JOptionPane.showMessageDialog(null, e);
-                                        }
-                                    }
-                                }
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            try {
-                                conn = db.db();
-                                pst = conn.prepareStatement("insert into payroll_schema.timemonitor_tbl (id,lastname,firstname,date_in,time_in,status) values (" + usr + ",'" + lsname + "','" + frname + "','" + ds + "','" + ts + "','Logged In');");
-                                pst.execute();
-                            } catch (Exception e) {
-                                JOptionPane.showMessageDialog(null, e);
-                            }
-                            //this.dispose();
-                        }
-
-                    } else {
-                        JOptionPane.showMessageDialog(rootPane, "ID or Password is incorrect", "Error", 1);
-                    }
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e);
-                }
-            }
-            // </editor-fold>
+            AuthenticateLogin();
         }
     }//GEN-LAST:event_inputUNKeyReleased
 
@@ -1293,13 +440,13 @@ public class login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -1310,7 +457,7 @@ public class login extends javax.swing.JFrame {
                     Thread.sleep(5000);
                 } catch (Exception e) {
                 }
-                new login().setVisible(true);
+                new Login().setVisible(true);
             }
 
         });

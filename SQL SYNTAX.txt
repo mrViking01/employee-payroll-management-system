@@ -1,0 +1,14 @@
+Create view AccountDetails as
+SELECT e.employee_id as ID, concat(e.employee_first_name ," ", e.employee_last_name) as 'Full Name', a.employee_account_password as Password, a.employee_access_level as 'Access Level', e.employee_status as Status
+FROM employee_tbl as e left join account_tbl as a on e.employee_id = a.employee_id;
+
+Create view TimeLogDetails as
+SELECT e.employee_id as ID, 
+concat(e.employee_first_name ," ", e.employee_last_name) as 'Full Name', 
+concat(l.time_in ," ", l.date_in) as 'Log In', 
+concat(l.time_out ," ", l.date_out) as 'Log Out', 
+l.status as Status,
+l.total_time_log as 'Total Time Log', 
+l.break_time as 'Break Time', 
+l.overtime as 'Overtime'
+FROM employee_tbl as e left join log_tbl as l on e.employee_id = l.employee_id;
