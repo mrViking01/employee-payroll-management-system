@@ -57,7 +57,7 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         setLocationRelativeTo(null);
 //        setExtendedState(MAXIMIZED_BOTH);
         RetrieveDetails();
-        setMaximizedBounds(rectangle);
+//        setMaximizedBounds(rectangle);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
     }
     

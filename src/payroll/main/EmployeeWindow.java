@@ -46,9 +46,9 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
     {
         initComponents();
         setLocationRelativeTo(null);
-        setExtendedState(MAXIMIZED_BOTH);
+//        setExtendedState(MAXIMIZED_BOTH);
         RetrieveDetails();
-        setMaximizedBounds(rectangle);
+//        setMaximizedBounds(rectangle);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
     }
     
@@ -328,27 +328,28 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         EmployeeDetailSubPanelLayout.setHorizontalGroup(
             EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                        .addGap(72, 72, 72)
-                        .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap()
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
+                                .addGap(72, 72, 72)
+                                .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
+                                .addComponent(EmployeeNameDesc)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                        .addComponent(EmployeeNameDesc)
+                        .addGap(26, 26, 26)
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DepartmentDesc)
+                            .addComponent(EmployeeIDDesc)
+                            .addComponent(StatusDesc))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(DepartmentDesc)
-                    .addComponent(EmployeeIDDesc)
-                    .addComponent(StatusDesc))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EmployeeIDText)
-                    .addComponent(StatusText)
-                    .addComponent(DepartmentText))
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(EmployeeIDText)
+                            .addComponent(StatusText)
+                            .addComponent(DepartmentText))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         EmployeeDetailSubPanelLayout.setVerticalGroup(
@@ -357,9 +358,9 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
                 .addContainerGap()
                 .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EmployeeNameDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(EmployeeNameDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(EmployeeIDDesc)
