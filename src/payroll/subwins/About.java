@@ -87,7 +87,7 @@ public class About extends javax.swing.JDialog {
         jLabel1.setText("TBC Payroll  System a payroll system that develope to compute payslip of the");
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText(" employee in The Barr Company.For more information,please visit www.TBC.org.");
+        jLabel3.setText(" employee in The Barr Company.For more information,please visit www.TBC.org.com");
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));

@@ -5,35 +5,12 @@
  */
 package payroll.subwins;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import payroll.helppanel.*;
 
 /**
  *
  * @author Hp
  */
 public class Help extends javax.swing.JDialog {
-    GridBagLayout layout = new GridBagLayout();
-    howtologin howtologin =new howtologin();
-    howtoaddemployee addemployee = new howtoaddemployee();
-    howtoremoveemployee removeemployee =new howtoremoveemployee();
-    howtoupdateemploye updateemployee =new howtoupdateemploye();
-    howtoaddaccount addaccount =new howtoaddaccount();
-    howtoupdateaccount updateaccount =new howtoupdateaccount();
-    howtoremoveaccount removeaccount =new howtoremoveaccount();
-    howtoupdatetimemonitoring updatetimemonitoring = new howtoupdatetimemonitoring();
-    howtoremovetimemonitoring removetimemonitoring = new howtoremovetimemonitoring();
-    howtoaddovertime addovertime = new howtoaddovertime();
-    howtoupdateovertime updateovertime = new howtoupdateovertime();
-    howtoremoveovertime removeovertime = new howtoremoveovertime();
-    howtoaddadjustmentrecord addadjustmentrecord = new howtoaddadjustmentrecord();
-    howtoupdateadjustmentrecord updateadjustmentrecord = new howtoupdateadjustmentrecord();
-    howtoremoveadjustmentrecord removeadjustmentrecord = new howtoremoveadjustmentrecord();
-    howtoadddeduction adddeduction= new howtoadddeduction();
-    howtoupdatededuction updatededuction= new howtoupdatededuction();
-    Howtoremovededuction removededuction= new Howtoremovededuction();
-    
 
     /**
      * Creates new form Help
@@ -42,82 +19,7 @@ public class Help extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
-        dp.setLayout(layout);
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        dp.add(howtologin, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        howtologin.setVisible(false);
-        dp.add(addemployee, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        addemployee.setVisible(false);
-         dp.add(updateemployee, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updateemployee.setVisible(false);
-        dp.add(removeemployee, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removeemployee.setVisible(false);
-        dp.add(addaccount, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        addaccount.setVisible(false);
-        dp.add(removeaccount, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removeaccount.setVisible(false);
-        dp.add(updateaccount, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updateaccount.setVisible(false);
-        dp.add(updatetimemonitoring, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updatetimemonitoring.setVisible(false);
-        dp.add(removetimemonitoring, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removetimemonitoring.setVisible(false);
-        dp.add(addovertime, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        addovertime.setVisible(false);
-        dp.add(updateovertime, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updateovertime.setVisible(false);
-        dp.add(removeovertime, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removeovertime.setVisible(false);
-        dp.add(addadjustmentrecord, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        addadjustmentrecord.setVisible(false);
-        dp.add(updateadjustmentrecord, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updateadjustmentrecord.setVisible(false);
-        dp.add(removeadjustmentrecord, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removeadjustmentrecord.setVisible(false);
-        dp.add(adddeduction, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        adddeduction.setVisible(false);
-        dp.add(updatededuction, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        updatededuction.setVisible(false);
-        dp.add(removededuction, c);
-        c.gridx = 0;
-        c.gridy = 0;
-        removededuction.setVisible(false);
+        
     }
 
     /**
@@ -130,25 +32,118 @@ public class Help extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
         dp = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        HowToLogin = new javax.swing.JPanel();
+        jLabel46 = new javax.swing.JLabel();
+        jLabel47 = new javax.swing.JLabel();
+        jLabel48 = new javax.swing.JLabel();
+        jLabel49 = new javax.swing.JLabel();
+        HowToAddEmployee = new javax.swing.JPanel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabel38 = new javax.swing.JLabel();
+        jLabel39 = new javax.swing.JLabel();
+        jLabel40 = new javax.swing.JLabel();
+        HowToUpdateEmployee = new javax.swing.JPanel();
+        jLabel93 = new javax.swing.JLabel();
+        jLabel94 = new javax.swing.JLabel();
+        jLabel95 = new javax.swing.JLabel();
+        jLabel96 = new javax.swing.JLabel();
+        jLabel97 = new javax.swing.JLabel();
+        jLabel98 = new javax.swing.JLabel();
+        jLabel99 = new javax.swing.JLabel();
+        jLabel100 = new javax.swing.JLabel();
+        HowToRemoveEmployee = new javax.swing.JPanel();
+        jLabel60 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabel62 = new javax.swing.JLabel();
+        jLabel63 = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        HowToAddAccount = new javax.swing.JPanel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        HowToUpdateAccount = new javax.swing.JPanel();
+        jLabel76 = new javax.swing.JLabel();
+        jLabel77 = new javax.swing.JLabel();
+        jLabel78 = new javax.swing.JLabel();
+        jLabel79 = new javax.swing.JLabel();
+        jLabel80 = new javax.swing.JLabel();
+        jLabel81 = new javax.swing.JLabel();
+        jLabel82 = new javax.swing.JLabel();
+        jLabel83 = new javax.swing.JLabel();
+        HowToRemoveAccount = new javax.swing.JPanel();
+        jLabel50 = new javax.swing.JLabel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel52 = new javax.swing.JLabel();
+        jLabel53 = new javax.swing.JLabel();
+        jLabel54 = new javax.swing.JLabel();
+        jLabel55 = new javax.swing.JLabel();
+        HowToAddDeduction = new javax.swing.JPanel();
+        jLabel32 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        HowToUpdateDeduction = new javax.swing.JPanel();
+        jLabel89 = new javax.swing.JLabel();
+        jLabel90 = new javax.swing.JLabel();
+        jLabel91 = new javax.swing.JLabel();
+        jLabel92 = new javax.swing.JLabel();
+        HowToRemoveDeduction = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        HowToAddAdjustmentRecord = new javax.swing.JPanel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
+        HowToUpdateAdjustmentRecord = new javax.swing.JPanel();
+        jLabel84 = new javax.swing.JLabel();
+        jLabel85 = new javax.swing.JLabel();
+        jLabel86 = new javax.swing.JLabel();
+        jLabel87 = new javax.swing.JLabel();
+        jLabel88 = new javax.swing.JLabel();
+        HowToRemoveAdjustmentRecord = new javax.swing.JPanel();
+        jLabel56 = new javax.swing.JLabel();
+        jLabel57 = new javax.swing.JLabel();
+        jLabel58 = new javax.swing.JLabel();
+        jLabel59 = new javax.swing.JLabel();
+        HowToAddOverTime = new javax.swing.JPanel();
+        jLabel41 = new javax.swing.JLabel();
+        jLabel42 = new javax.swing.JLabel();
+        jLabel43 = new javax.swing.JLabel();
+        jLabel44 = new javax.swing.JLabel();
+        jLabel45 = new javax.swing.JLabel();
+        HowToUpdateOvertime = new javax.swing.JPanel();
+        jLabel101 = new javax.swing.JLabel();
+        jLabel102 = new javax.swing.JLabel();
+        jLabel103 = new javax.swing.JLabel();
+        jLabel104 = new javax.swing.JLabel();
+        jLabel105 = new javax.swing.JLabel();
+        HowToRemoveOvertime = new javax.swing.JPanel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabel67 = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabel69 = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        HowToUpdateTimeLog = new javax.swing.JPanel();
+        jLabel106 = new javax.swing.JLabel();
+        jLabel107 = new javax.swing.JLabel();
+        jLabel108 = new javax.swing.JLabel();
+        jLabel109 = new javax.swing.JLabel();
+        jLabel110 = new javax.swing.JLabel();
+        HowToRemoveTimeLog = new javax.swing.JPanel();
+        jLabel71 = new javax.swing.JLabel();
+        jLabel72 = new javax.swing.JLabel();
+        jLabel73 = new javax.swing.JLabel();
+        jLabel74 = new javax.swing.JLabel();
+        jLabel75 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Help");
@@ -156,620 +151,849 @@ public class Help extends javax.swing.JDialog {
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel5.setText("How  to Login");
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
-            }
-        });
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel6.setText("How  to add Employee");
-        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
-        });
-
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("How to remove Employee");
-        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel1MouseClicked(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("How to update Employee");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel3.setText("How to add  account");
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
-            }
-        });
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel4.setText("How to Update Account");
-        jLabel4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel4MouseClicked(evt);
-            }
-        });
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        jLabel7.setText("How to Remove Account");
-        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel7MouseClicked(evt);
-            }
-        });
-
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel8.setText("How to Update Time Monitoring");
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
-            }
-        });
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel9.setText("How to Remove Time Monitoring");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel10.setText("How to add over time");
-        jLabel10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel10MouseClicked(evt);
-            }
-        });
-
-        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel11.setText("How to update over time");
-        jLabel11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel11MouseClicked(evt);
-            }
-        });
-
-        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel12.setText("How to remove over time");
-        jLabel12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel12MouseClicked(evt);
-            }
-        });
-
-        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel13.setText("How to add adjustment record");
-        jLabel13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel13MouseClicked(evt);
-            }
-        });
-
-        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel14.setText("How to update adjustment record");
-        jLabel14.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel14MouseClicked(evt);
-            }
-        });
-
         dp.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
+
+        jLabel46.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel46.setText("How  to Login");
+
+        jLabel47.setText("1. Input Your Username in Textfield");
+
+        jLabel48.setText("2. Input Your Password in Passwordfield");
+
+        jLabel49.setText("3.Press the Login button");
+
+        javax.swing.GroupLayout HowToLoginLayout = new javax.swing.GroupLayout(HowToLogin);
+        HowToLogin.setLayout(HowToLoginLayout);
+        HowToLoginLayout.setHorizontalGroup(
+            HowToLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToLoginLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(HowToLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel46)
+                    .addComponent(jLabel47)
+                    .addComponent(jLabel48)
+                    .addComponent(jLabel49))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToLoginLayout.setVerticalGroup(
+            HowToLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToLoginLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel46)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel47)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel48)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel49)
+                .addContainerGap(574, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Log in", HowToLogin);
+
+        HowToAddEmployee.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+
+        jLabel37.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel37.setText("How to Add Employee");
+
+        jLabel38.setText("1. Maintenance > Employee > Employee File > Add Employee");
+
+        jLabel39.setText("2. Fill up the form.");
+
+        jLabel40.setText("Note: Don't forget to fill up all the fields.");
+
+        javax.swing.GroupLayout HowToAddEmployeeLayout = new javax.swing.GroupLayout(HowToAddEmployee);
+        HowToAddEmployee.setLayout(HowToAddEmployeeLayout);
+        HowToAddEmployeeLayout.setHorizontalGroup(
+            HowToAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddEmployeeLayout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addGroup(HowToAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel40)
+                    .addComponent(jLabel39)
+                    .addComponent(jLabel38)
+                    .addComponent(jLabel37))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToAddEmployeeLayout.setVerticalGroup(
+            HowToAddEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddEmployeeLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel37)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel38)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel39)
+                .addGap(31, 31, 31)
+                .addComponent(jLabel40)
+                .addContainerGap(542, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Employee", HowToAddEmployee);
+
+        jLabel93.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        jLabel93.setText("How to update employee");
+
+        jLabel94.setText("1.Maintenance>Employee");
+
+        jLabel95.setText("2.Select employee from the table.");
+
+        jLabel96.setText("3.Press update employee in ");
+
+        jLabel97.setText("Employee file>update employee");
+
+        jLabel98.setText("4.Update the filled that you want to update");
+
+        jLabel99.setText("5.Press update in ");
+
+        jLabel100.setText(" File>update employee");
+
+        javax.swing.GroupLayout HowToUpdateEmployeeLayout = new javax.swing.GroupLayout(HowToUpdateEmployee);
+        HowToUpdateEmployee.setLayout(HowToUpdateEmployeeLayout);
+        HowToUpdateEmployeeLayout.setHorizontalGroup(
+            HowToUpdateEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateEmployeeLayout.createSequentialGroup()
+                .addGroup(HowToUpdateEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(HowToUpdateEmployeeLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addGroup(HowToUpdateEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel96)
+                            .addComponent(jLabel95)
+                            .addComponent(jLabel94)
+                            .addComponent(jLabel93)
+                            .addComponent(jLabel98)
+                            .addComponent(jLabel99)
+                            .addGroup(HowToUpdateEmployeeLayout.createSequentialGroup()
+                                .addGap(78, 78, 78)
+                                .addComponent(jLabel100))))
+                    .addGroup(HowToUpdateEmployeeLayout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(jLabel97)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateEmployeeLayout.setVerticalGroup(
+            HowToUpdateEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateEmployeeLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel93)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel94)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel95)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel96)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel97)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel98)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel99)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel100)
+                .addContainerGap(483, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Employee", HowToUpdateEmployee);
+
+        jLabel60.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+        jLabel60.setText("How To Remove Employee");
+
+        jLabel61.setText("1.Maintenance>Employee>Employee File");
+
+        jLabel62.setText("2.Select Employee From The Table");
+
+        jLabel63.setText("3.Press Remove Employee from Employee File");
+
+        jLabel64.setText("4.Wait until success.");
+
+        jLabel65.setText("Note:When you choose to remove the employee all its record will be remove");
+
+        javax.swing.GroupLayout HowToRemoveEmployeeLayout = new javax.swing.GroupLayout(HowToRemoveEmployee);
+        HowToRemoveEmployee.setLayout(HowToRemoveEmployeeLayout);
+        HowToRemoveEmployeeLayout.setHorizontalGroup(
+            HowToRemoveEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveEmployeeLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addGroup(HowToRemoveEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel65)
+                    .addComponent(jLabel64)
+                    .addComponent(jLabel63)
+                    .addComponent(jLabel62)
+                    .addComponent(jLabel61)
+                    .addComponent(jLabel60))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveEmployeeLayout.setVerticalGroup(
+            HowToRemoveEmployeeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveEmployeeLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jLabel60)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel61)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel62)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel63)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel64)
+                .addGap(39, 39, 39)
+                .addComponent(jLabel65)
+                .addContainerGap(500, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Employee", HowToRemoveEmployee);
+
+        jLabel23.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel23.setText("How To Add Account");
+
+        jLabel24.setText("1.Maintenance>Employee>Employee File>Add Account");
+
+        jLabel25.setText("2.Fill up the form");
+
+        jLabel26.setText("Note:Don't forget to fill up all the forms");
+
+        javax.swing.GroupLayout HowToAddAccountLayout = new javax.swing.GroupLayout(HowToAddAccount);
+        HowToAddAccount.setLayout(HowToAddAccountLayout);
+        HowToAddAccountLayout.setHorizontalGroup(
+            HowToAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddAccountLayout.createSequentialGroup()
+                .addGap(52, 52, 52)
+                .addGroup(HowToAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabel25)
+                    .addComponent(jLabel24)
+                    .addComponent(jLabel23))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToAddAccountLayout.setVerticalGroup(
+            HowToAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddAccountLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel23)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel25)
+                .addGap(54, 54, 54)
+                .addComponent(jLabel26)
+                .addContainerGap(535, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Account", HowToAddAccount);
+
+        jLabel76.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel76.setText("How to Update Account");
+
+        jLabel77.setText("1. Maintenance > ");
+        jLabel77.setToolTipText("");
+
+        jLabel78.setText("2. Select account from the table.");
+
+        jLabel79.setText("3. Press update account in");
+
+        jLabel80.setText("Account file>update account");
+
+        jLabel81.setText("4. Update the filled that you want to update.");
+
+        jLabel82.setText("5. Press update in");
+
+        jLabel83.setText("File>update account");
+
+        javax.swing.GroupLayout HowToUpdateAccountLayout = new javax.swing.GroupLayout(HowToUpdateAccount);
+        HowToUpdateAccount.setLayout(HowToUpdateAccountLayout);
+        HowToUpdateAccountLayout.setHorizontalGroup(
+            HowToUpdateAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateAccountLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addGroup(HowToUpdateAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel83)
+                    .addComponent(jLabel82)
+                    .addComponent(jLabel81)
+                    .addComponent(jLabel80)
+                    .addComponent(jLabel79)
+                    .addComponent(jLabel78)
+                    .addComponent(jLabel77)
+                    .addComponent(jLabel76))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateAccountLayout.setVerticalGroup(
+            HowToUpdateAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateAccountLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel76)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel77, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel78)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel79)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel80)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel81)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel82)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel83)
+                .addContainerGap(459, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Account", HowToUpdateAccount);
+
+        jLabel50.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel50.setText("How To Remove Account");
+
+        jLabel51.setText("1.Maintenance>Employee>Employee Flie");
+
+        jLabel52.setText("2.Select accountfFrom the table");
+
+        jLabel53.setText("3.Press remove account from account file");
+
+        jLabel54.setText("4.Wait until success");
+
+        jLabel55.setText("Note:When you choose to remove the account all its record will be remove");
+
+        javax.swing.GroupLayout HowToRemoveAccountLayout = new javax.swing.GroupLayout(HowToRemoveAccount);
+        HowToRemoveAccount.setLayout(HowToRemoveAccountLayout);
+        HowToRemoveAccountLayout.setHorizontalGroup(
+            HowToRemoveAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveAccountLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(HowToRemoveAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel55)
+                    .addComponent(jLabel54)
+                    .addComponent(jLabel53)
+                    .addComponent(jLabel52)
+                    .addComponent(jLabel51)
+                    .addComponent(jLabel50))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveAccountLayout.setVerticalGroup(
+            HowToRemoveAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveAccountLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jLabel50)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel51)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel52)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel53)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel54)
+                .addGap(42, 42, 42)
+                .addComponent(jLabel55)
+                .addContainerGap(513, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Account", HowToRemoveAccount);
+
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel32.setText("How to add deduction");
+
+        jLabel33.setText("1.Maintenance>Transaction>Other Deduction");
+
+        jLabel34.setText("2.Add deduction");
+
+        jLabel35.setText("3.Fill up the form");
+
+        jLabel36.setText("Note:Dont forget to fill up all the forms");
+
+        javax.swing.GroupLayout HowToAddDeductionLayout = new javax.swing.GroupLayout(HowToAddDeduction);
+        HowToAddDeduction.setLayout(HowToAddDeductionLayout);
+        HowToAddDeductionLayout.setHorizontalGroup(
+            HowToAddDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddDeductionLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(HowToAddDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabel35)
+                    .addComponent(jLabel34)
+                    .addComponent(jLabel33)
+                    .addComponent(jLabel32))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToAddDeductionLayout.setVerticalGroup(
+            HowToAddDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddDeductionLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(jLabel32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel33)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel35)
+                .addGap(75, 75, 75)
+                .addComponent(jLabel36)
+                .addContainerGap(496, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Deduction", HowToAddDeduction);
+
+        jLabel89.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel89.setText("How to update deduction");
+
+        jLabel90.setText("1.Maintenance>Transaction>Other Deduction");
+
+        jLabel91.setText(">Update deduction");
+
+        jLabel92.setText("2.Select file");
+
+        javax.swing.GroupLayout HowToUpdateDeductionLayout = new javax.swing.GroupLayout(HowToUpdateDeduction);
+        HowToUpdateDeduction.setLayout(HowToUpdateDeductionLayout);
+        HowToUpdateDeductionLayout.setHorizontalGroup(
+            HowToUpdateDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateDeductionLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addGroup(HowToUpdateDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel92)
+                    .addComponent(jLabel90)
+                    .addComponent(jLabel89)
+                    .addGroup(HowToUpdateDeductionLayout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel91)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateDeductionLayout.setVerticalGroup(
+            HowToUpdateDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateDeductionLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jLabel89)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel90)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel92)
+                .addGap(8, 8, 8)
+                .addComponent(jLabel91)
+                .addContainerGap(575, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Deduction", HowToUpdateDeduction);
+
+        jLabel19.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel19.setText("How to remove deduction");
+
+        jLabel20.setText("1. 1.Maintenance>Transaction>Other Deduction");
+
+        jLabel21.setText("2. Select File");
+        jLabel21.setToolTipText("");
+
+        jLabel22.setText(">remove deduction");
+
+        javax.swing.GroupLayout HowToRemoveDeductionLayout = new javax.swing.GroupLayout(HowToRemoveDeduction);
+        HowToRemoveDeduction.setLayout(HowToRemoveDeductionLayout);
+        HowToRemoveDeductionLayout.setHorizontalGroup(
+            HowToRemoveDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveDeductionLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(HowToRemoveDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel20)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel21)
+                    .addGroup(HowToRemoveDeductionLayout.createSequentialGroup()
+                        .addGap(29, 29, 29)
+                        .addComponent(jLabel22)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveDeductionLayout.setVerticalGroup(
+            HowToRemoveDeductionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveDeductionLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel20)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel21)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel22)
+                .addContainerGap(576, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Deduction", HowToRemoveDeduction);
+
+        jLabel27.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel27.setText("How To Add Adjustment Reocrd");
+
+        jLabel28.setText("1.Maintenance>Transaction>Adjustment");
+
+        jLabel29.setText("3.Fill up the form.");
+
+        jLabel30.setText("Note:Don't forget to fill up all the forms");
+
+        jLabel31.setText("2.Add record");
+
+        javax.swing.GroupLayout HowToAddAdjustmentRecordLayout = new javax.swing.GroupLayout(HowToAddAdjustmentRecord);
+        HowToAddAdjustmentRecord.setLayout(HowToAddAdjustmentRecordLayout);
+        HowToAddAdjustmentRecordLayout.setHorizontalGroup(
+            HowToAddAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(HowToAddAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel31)
+                    .addComponent(jLabel30)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabel27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToAddAdjustmentRecordLayout.setVerticalGroup(
+            HowToAddAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addComponent(jLabel27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel28, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(5, 5, 5)
+                .addComponent(jLabel31)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel29)
+                .addGap(45, 45, 45)
+                .addComponent(jLabel30)
+                .addContainerGap(530, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Adjutsment Record", HowToAddAdjustmentRecord);
+
+        jLabel84.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel84.setText("How to update adjustment record");
+
+        jLabel85.setText("1.Maintenance>Transaction>Adjustment");
+
+        jLabel86.setText("2.Update record");
+
+        jLabel87.setText("3.Don't leave any blank space");
+
+        jLabel88.setText("Note:Update if needed");
+
+        javax.swing.GroupLayout HowToUpdateAdjustmentRecordLayout = new javax.swing.GroupLayout(HowToUpdateAdjustmentRecord);
+        HowToUpdateAdjustmentRecord.setLayout(HowToUpdateAdjustmentRecordLayout);
+        HowToUpdateAdjustmentRecordLayout.setHorizontalGroup(
+            HowToUpdateAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addGroup(HowToUpdateAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel88)
+                    .addComponent(jLabel87)
+                    .addComponent(jLabel86)
+                    .addComponent(jLabel85)
+                    .addComponent(jLabel84))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateAdjustmentRecordLayout.setVerticalGroup(
+            HowToUpdateAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel84)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel85)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel86)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel87)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel88)
+                .addContainerGap(529, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Adjustment Record", HowToUpdateAdjustmentRecord);
+
+        jLabel56.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel56.setText("How to remove adjustment record");
+
+        jLabel57.setText("1.Maintenance>Transaction>Adjustment");
+
+        jLabel58.setText("2.Remove record");
+
+        jLabel59.setText("Note:Remove if needed");
+
+        javax.swing.GroupLayout HowToRemoveAdjustmentRecordLayout = new javax.swing.GroupLayout(HowToRemoveAdjustmentRecord);
+        HowToRemoveAdjustmentRecord.setLayout(HowToRemoveAdjustmentRecordLayout);
+        HowToRemoveAdjustmentRecordLayout.setHorizontalGroup(
+            HowToRemoveAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addGroup(HowToRemoveAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel59)
+                    .addComponent(jLabel58)
+                    .addComponent(jLabel57)
+                    .addComponent(jLabel56))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveAdjustmentRecordLayout.setVerticalGroup(
+            HowToRemoveAdjustmentRecordLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveAdjustmentRecordLayout.createSequentialGroup()
+                .addGap(32, 32, 32)
+                .addComponent(jLabel56)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel57)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel58)
+                .addGap(97, 97, 97)
+                .addComponent(jLabel59)
+                .addContainerGap(487, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Adjustment Record", HowToRemoveAdjustmentRecord);
+
+        jLabel41.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel41.setText("How to add over time");
+
+        jLabel42.setText("1.Maintenance>Time monitoring");
+
+        jLabel43.setText("2.Select data from the table");
+
+        jLabel44.setText("3.Select file>add over time");
+
+        jLabel45.setText("Note:Add if needed");
+
+        javax.swing.GroupLayout HowToAddOverTimeLayout = new javax.swing.GroupLayout(HowToAddOverTime);
+        HowToAddOverTime.setLayout(HowToAddOverTimeLayout);
+        HowToAddOverTimeLayout.setHorizontalGroup(
+            HowToAddOverTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddOverTimeLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addGroup(HowToAddOverTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel45)
+                    .addComponent(jLabel44)
+                    .addComponent(jLabel43)
+                    .addComponent(jLabel42)
+                    .addComponent(jLabel41))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToAddOverTimeLayout.setVerticalGroup(
+            HowToAddOverTimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToAddOverTimeLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel41)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel42)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel43)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel44)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel45)
+                .addContainerGap(527, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Add Overtime", HowToAddOverTime);
+
+        jLabel101.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel101.setText("How to update over time");
+
+        jLabel102.setText("1.Maintenance>over time");
+
+        jLabel103.setText("2.Select data from the table");
+
+        jLabel104.setText("3.Select file>update over time");
+
+        jLabel105.setText("Note:update if needed");
+
+        javax.swing.GroupLayout HowToUpdateOvertimeLayout = new javax.swing.GroupLayout(HowToUpdateOvertime);
+        HowToUpdateOvertime.setLayout(HowToUpdateOvertimeLayout);
+        HowToUpdateOvertimeLayout.setHorizontalGroup(
+            HowToUpdateOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateOvertimeLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(HowToUpdateOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel105)
+                    .addComponent(jLabel104)
+                    .addComponent(jLabel103)
+                    .addComponent(jLabel102)
+                    .addComponent(jLabel101))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateOvertimeLayout.setVerticalGroup(
+            HowToUpdateOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateOvertimeLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel101)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel102)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel103)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel104)
+                .addGap(36, 36, 36)
+                .addComponent(jLabel105)
+                .addContainerGap(537, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Overtime", HowToUpdateOvertime);
+
+        jLabel66.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel66.setText("How to remove over time");
+        jLabel66.setToolTipText("");
+
+        jLabel67.setText("1.Maintenance>Over time");
+
+        jLabel68.setText("2.Select data from the table");
+
+        jLabel69.setText("3.Select file>remover over time");
+
+        jLabel70.setText("Note:remove if needed");
+
+        javax.swing.GroupLayout HowToRemoveOvertimeLayout = new javax.swing.GroupLayout(HowToRemoveOvertime);
+        HowToRemoveOvertime.setLayout(HowToRemoveOvertimeLayout);
+        HowToRemoveOvertimeLayout.setHorizontalGroup(
+            HowToRemoveOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveOvertimeLayout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(HowToRemoveOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel70)
+                    .addComponent(jLabel69)
+                    .addComponent(jLabel68)
+                    .addComponent(jLabel67)
+                    .addComponent(jLabel66))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveOvertimeLayout.setVerticalGroup(
+            HowToRemoveOvertimeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveOvertimeLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel66)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel67)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel68)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel69)
+                .addGap(48, 48, 48)
+                .addComponent(jLabel70)
+                .addContainerGap(519, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Overtime", HowToRemoveOvertime);
+
+        jLabel106.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel106.setText("How to update time monitoring");
+
+        jLabel107.setText("1.Maintenance>Time monitoring");
+
+        jLabel108.setText("2.Select data from the table");
+
+        jLabel109.setText("3.Press file >Update Record ");
+        jLabel109.setToolTipText("");
+
+        jLabel110.setText("Note:Update if needed");
+
+        javax.swing.GroupLayout HowToUpdateTimeLogLayout = new javax.swing.GroupLayout(HowToUpdateTimeLog);
+        HowToUpdateTimeLog.setLayout(HowToUpdateTimeLogLayout);
+        HowToUpdateTimeLogLayout.setHorizontalGroup(
+            HowToUpdateTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateTimeLogLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addGroup(HowToUpdateTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel110)
+                    .addComponent(jLabel109)
+                    .addComponent(jLabel108)
+                    .addComponent(jLabel107)
+                    .addComponent(jLabel106))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToUpdateTimeLogLayout.setVerticalGroup(
+            HowToUpdateTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToUpdateTimeLogLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel106)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel107)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel108)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel109)
+                .addGap(52, 52, 52)
+                .addComponent(jLabel110)
+                .addContainerGap(520, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Update Time Log", HowToUpdateTimeLog);
+
+        jLabel71.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel71.setText("How to remove time monitoring");
+
+        jLabel72.setText("1.Maintenance>Time Monitoring");
+
+        jLabel73.setText("2.Select data from the table");
+
+        jLabel74.setText("Press file>Remove Record");
+
+        jLabel75.setText("Note:Remove if needed");
+
+        javax.swing.GroupLayout HowToRemoveTimeLogLayout = new javax.swing.GroupLayout(HowToRemoveTimeLog);
+        HowToRemoveTimeLog.setLayout(HowToRemoveTimeLogLayout);
+        HowToRemoveTimeLogLayout.setHorizontalGroup(
+            HowToRemoveTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveTimeLogLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addGroup(HowToRemoveTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel75)
+                    .addComponent(jLabel74)
+                    .addComponent(jLabel73)
+                    .addComponent(jLabel72)
+                    .addComponent(jLabel71))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        HowToRemoveTimeLogLayout.setVerticalGroup(
+            HowToRemoveTimeLogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(HowToRemoveTimeLogLayout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jLabel71)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel72)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel74)
+                .addGap(46, 46, 46)
+                .addComponent(jLabel75)
+                .addContainerGap(517, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Remove Time Log", HowToRemoveTimeLog);
 
         javax.swing.GroupLayout dpLayout = new javax.swing.GroupLayout(dp);
         dp.setLayout(dpLayout);
         dpLayout.setHorizontalGroup(
             dpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 361, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, Short.MAX_VALUE)
+                .addContainerGap())
         );
         dpLayout.setVerticalGroup(
             dpLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dpLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
         );
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel15.setText("How to remove adjustment record");
-        jLabel15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel15MouseClicked(evt);
-            }
-        });
-
-        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel16.setText("How to add deduction");
-        jLabel16.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel16MouseClicked(evt);
-            }
-        });
-
-        jLabel17.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel17.setText("How to update deduction");
-        jLabel17.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel17MouseClicked(evt);
-            }
-        });
-
-        jLabel18.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel18.setText("How to remove deduction");
-        jLabel18.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel18MouseClicked(evt);
-            }
-        });
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Log in");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel9)
-                    .addComponent(jLabel13)
-                    .addComponent(jLabel10)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15)
-                    .addComponent(jLabel6)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel11)
-                    .addComponent(jLabel16)
-                    .addComponent(jLabel17)
-                    .addComponent(jLabel18))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(dp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addGap(1, 1, 1)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
-                .addComponent(jLabel11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel15)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel16)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel17)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel18)
-                .addContainerGap(33, Short.MAX_VALUE))
-            .addComponent(dp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(dp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 570, 480));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 720));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(true);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-        
-    }//GEN-LAST:event_jLabel5MouseClicked
-
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
-        
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(true);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel6MouseClicked
- 
-    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(true);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel1MouseClicked
-
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(true);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel2MouseClicked
-
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-         addaccount.setVisible(true);
-         updateaccount.setVisible(false);
-         removeaccount.setVisible(false);
-         updatetimemonitoring.setVisible(false);
-         removetimemonitoring.setVisible(false);
-         addovertime.setVisible(false);
-         updateovertime.setVisible(false);
-         removeovertime.setVisible(false);
-         addadjustmentrecord.setVisible(false);
-         updateadjustmentrecord.setVisible(false);
-         removeadjustmentrecord.setVisible(false);
-         adddeduction.setVisible(false);
-         updatededuction.setVisible(false);
-         removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel3MouseClicked
-
-    private void jLabel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel4MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-         addaccount.setVisible(false);
-         updateaccount.setVisible(true);
-         removeaccount.setVisible(false);
-         updatetimemonitoring.setVisible(false);
-         removetimemonitoring.setVisible(false);
-         addovertime.setVisible(false);
-         updateovertime.setVisible(false);
-         removeovertime.setVisible(false);
-         addadjustmentrecord.setVisible(false);
-         updateadjustmentrecord.setVisible(false);
-         removeadjustmentrecord.setVisible(false);
-         adddeduction.setVisible(false);
-         updatededuction.setVisible(false);
-         removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel4MouseClicked
-
-    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(true);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel7MouseClicked
-
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
-         howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(true);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
-          howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(true);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel9MouseClicked
-
-    private void jLabel10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel10MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(true);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel10MouseClicked
-
-    private void jLabel11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel11MouseClicked
-        // TODO add your handling code here:
-         howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(true);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel11MouseClicked
-
-    private void jLabel12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel12MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(true);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel12MouseClicked
-
-    private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(true);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-                                      
-    }//GEN-LAST:event_jLabel13MouseClicked
-
-    private void jLabel14MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel14MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(true);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel14MouseClicked
-
-    private void jLabel15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel15MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(true);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel15MouseClicked
-
-    private void jLabel16MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel16MouseClicked
-        // TODO add your handling code here:
-        howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(true);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(false);
-    }//GEN-LAST:event_jLabel16MouseClicked
-
-    private void jLabel17MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel17MouseClicked
-        // TODO add your handling code here:
-             howtologin.setVisible(false);
-        removeemployee.setVisible(false);
-        addemployee.setVisible(false);
-        updateemployee.setVisible(false);
-        addaccount.setVisible(false);
-        updateaccount.setVisible(false);
-        removeaccount.setVisible(false);
-        updatetimemonitoring.setVisible(false);
-        removetimemonitoring.setVisible(false);
-        addovertime.setVisible(false);
-        updateovertime.setVisible(false);
-        removeovertime.setVisible(false);
-        addadjustmentrecord.setVisible(false);
-        updateadjustmentrecord.setVisible(false);
-        removeadjustmentrecord.setVisible(false);
-        adddeduction.setVisible(false);
-        updatededuction.setVisible(false);
-        removededuction.setVisible(true);
-    }//GEN-LAST:event_jLabel17MouseClicked
-
-    private void jLabel18MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel18MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel18MouseClicked
-    
+     
     /**
      * @param args the command line arguments
      */
@@ -813,25 +1037,118 @@ public class Help extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel HowToAddAccount;
+    private javax.swing.JPanel HowToAddAdjustmentRecord;
+    private javax.swing.JPanel HowToAddDeduction;
+    private javax.swing.JPanel HowToAddEmployee;
+    private javax.swing.JPanel HowToAddOverTime;
+    private javax.swing.JPanel HowToLogin;
+    private javax.swing.JPanel HowToRemoveAccount;
+    private javax.swing.JPanel HowToRemoveAdjustmentRecord;
+    private javax.swing.JPanel HowToRemoveDeduction;
+    private javax.swing.JPanel HowToRemoveEmployee;
+    private javax.swing.JPanel HowToRemoveOvertime;
+    private javax.swing.JPanel HowToRemoveTimeLog;
+    private javax.swing.JPanel HowToUpdateAccount;
+    private javax.swing.JPanel HowToUpdateAdjustmentRecord;
+    private javax.swing.JPanel HowToUpdateDeduction;
+    private javax.swing.JPanel HowToUpdateEmployee;
+    private javax.swing.JPanel HowToUpdateOvertime;
+    private javax.swing.JPanel HowToUpdateTimeLog;
     private javax.swing.JPanel dp;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabel100;
+    private javax.swing.JLabel jLabel101;
+    private javax.swing.JLabel jLabel102;
+    private javax.swing.JLabel jLabel103;
+    private javax.swing.JLabel jLabel104;
+    private javax.swing.JLabel jLabel105;
+    private javax.swing.JLabel jLabel106;
+    private javax.swing.JLabel jLabel107;
+    private javax.swing.JLabel jLabel108;
+    private javax.swing.JLabel jLabel109;
+    private javax.swing.JLabel jLabel110;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel38;
+    private javax.swing.JLabel jLabel39;
+    private javax.swing.JLabel jLabel40;
+    private javax.swing.JLabel jLabel41;
+    private javax.swing.JLabel jLabel42;
+    private javax.swing.JLabel jLabel43;
+    private javax.swing.JLabel jLabel44;
+    private javax.swing.JLabel jLabel45;
+    private javax.swing.JLabel jLabel46;
+    private javax.swing.JLabel jLabel47;
+    private javax.swing.JLabel jLabel48;
+    private javax.swing.JLabel jLabel49;
+    private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
+    private javax.swing.JLabel jLabel52;
+    private javax.swing.JLabel jLabel53;
+    private javax.swing.JLabel jLabel54;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel56;
+    private javax.swing.JLabel jLabel57;
+    private javax.swing.JLabel jLabel58;
+    private javax.swing.JLabel jLabel59;
+    private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel67;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel69;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
+    private javax.swing.JLabel jLabel73;
+    private javax.swing.JLabel jLabel74;
+    private javax.swing.JLabel jLabel75;
+    private javax.swing.JLabel jLabel76;
+    private javax.swing.JLabel jLabel77;
+    private javax.swing.JLabel jLabel78;
+    private javax.swing.JLabel jLabel79;
+    private javax.swing.JLabel jLabel80;
+    private javax.swing.JLabel jLabel81;
+    private javax.swing.JLabel jLabel82;
+    private javax.swing.JLabel jLabel83;
+    private javax.swing.JLabel jLabel84;
+    private javax.swing.JLabel jLabel85;
+    private javax.swing.JLabel jLabel86;
+    private javax.swing.JLabel jLabel87;
+    private javax.swing.JLabel jLabel88;
+    private javax.swing.JLabel jLabel89;
+    private javax.swing.JLabel jLabel90;
+    private javax.swing.JLabel jLabel91;
+    private javax.swing.JLabel jLabel92;
+    private javax.swing.JLabel jLabel93;
+    private javax.swing.JLabel jLabel94;
+    private javax.swing.JLabel jLabel95;
+    private javax.swing.JLabel jLabel96;
+    private javax.swing.JLabel jLabel97;
+    private javax.swing.JLabel jLabel98;
+    private javax.swing.JLabel jLabel99;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JTabbedPane jTabbedPane1;
     // End of variables declaration//GEN-END:variables
 }

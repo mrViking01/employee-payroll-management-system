@@ -82,7 +82,7 @@ public class Login extends javax.swing.JFrame {
 
             try {
                 if (result.next()) {
-                    EmployeeInfo employeeInfo = new EmployeeInfo(result.getString("ID"), result.getString("Full Name"));
+                    EmployeeInfo employeeInfo = new EmployeeInfo(result.getString("ID"), result.getString("Full Name"), result.getString("Access Level"));
 
                     String accessLevel = result.getString("Access Level");
 
@@ -90,24 +90,24 @@ public class Login extends javax.swing.JFrame {
 
                     switch (accessLevel) {
                         case ("Admin"):
-                            window = new AdminWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name());
+                            window = new AdminWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name(), EmployeeInfo.getEmployee_access_level());
                             AppWindow.Switch(window, this);
                             break;
-//                        case("Manager"):
-//                            window = new ManagerWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_first_name(), EmployeeInfo.getEmployee_last_name(), "");
-//                            AppWindow.Switch(window, this);
-//                            break;
+                        case("Manager"):
+                            window = new ManagerWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name(), EmployeeInfo.getEmployee_access_level());
+                            AppWindow.Switch(window, this);
+                            break;
 //                        case("Accountant"):
 //                            window = new AccountantWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_first_name(), EmployeeInfo.getEmployee_last_name(), "");
 //                            AppWindow.Switch(window, this);
 //                            break;
                         case ("Employee"):
-                            window = new EmployeeWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name());
+                            window = new EmployeeWindow(EmployeeInfo.getEmployee_id(), EmployeeInfo.getEmployee_full_name(), EmployeeInfo.getEmployee_access_level());
                             AppWindow.Switch(window, this);
                             break;
                     }
 
-                    ProcessLog.LogIn(EmployeeInfo.getEmployee_id());
+                    ProcessLogData.LogIn(EmployeeInfo.getEmployee_id());
 
                 } else {
                     AppWindow.ShowNotification("Wrong user or password");

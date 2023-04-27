@@ -25,8 +25,6 @@ import interfaces.*;
  */
 public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails {
     
-    ResultSet result;
-    DataType[] values;
     
     Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     Rectangle rectangle = new Rectangle(0,0,dimension.width,dimension.height-40);
@@ -39,16 +37,17 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         SetupWindow();
     }
     
-    public AdminWindow(String id, String full_name) {
+    public AdminWindow(String id, String full_name, String access_level) {
         SetupWindow();
         FullNameText.setText(full_name);
+        AccessLevelText.setText(access_level);
     }
     
     @Override
     public void RetrieveDetails(){
-        String query = "SELECT * FROM "+Database.logTable+";";
-        result = Database.SendQuery(query);
-        rectable.setModel(DbUtils.resultSetToTableModel(result));
+        String query = "SELECT * FROM "+Database.timeLogView+" ORDER BY 'Log In' ASC;";
+        RetrieveData retrieveData = new RetrieveData(query, tableData);
+        retrieveData.RetrieveDetails();
     }
     
     private void SetupWindow()
@@ -56,9 +55,9 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         initComponents();
         setLocationRelativeTo(null);
 //        setExtendedState(MAXIMIZED_BOTH);
-        RetrieveDetails();
 //        setMaximizedBounds(rectangle);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
+        RetrieveDetails();
     }
     
     /**
@@ -73,7 +72,7 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        rectable = new javax.swing.JTable(){
+        tableData = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
                 return false;
             }
@@ -92,8 +91,8 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         LogOutText = new javax.swing.JLabel();
         LoggedAsDesc = new javax.swing.JLabel();
         FullNameText = new javax.swing.JLabel();
-        UserLevelDescText = new javax.swing.JLabel();
-        UserLevelText = new javax.swing.JLabel();
+        AccessLevelDescText = new javax.swing.JLabel();
+        AccessLevelText = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         Maintenance = new javax.swing.JMenu();
         employee = new javax.swing.JMenuItem();
@@ -129,16 +128,17 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Administrator");
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(1080, 700));
         setResizable(false);
 
         jDesktopPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DailyTimeRecord", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Time Logs", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jScrollPane1.setAutoscrolls(true);
 
-        rectable.setModel(new javax.swing.table.DefaultTableModel(
+        tableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -149,8 +149,8 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
                 "ID", "First Name", "Last Name", "Date In", "Time In", "Date Out", "Time Out", "Status"
             }
         ));
-        rectable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        jScrollPane1.setViewportView(rectable);
+        tableData.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(tableData);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -273,7 +273,7 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(2, Short.MAX_VALUE))
+                .addContainerGap(412, Short.MAX_VALUE))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,9 +282,9 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 81, Short.MAX_VALUE)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(2, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         getContentPane().add(jDesktopPane1, java.awt.BorderLayout.CENTER);
@@ -332,15 +332,15 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
 
         FullNameText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         FullNameText.setForeground(new java.awt.Color(255, 255, 255));
-        FullNameText.setText("fname");
+        FullNameText.setText("Name");
 
-        UserLevelDescText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        UserLevelDescText.setForeground(new java.awt.Color(255, 255, 255));
-        UserLevelDescText.setText("Access Level:");
+        AccessLevelDescText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelDescText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelDescText.setText("Access Level:");
 
-        UserLevelText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        UserLevelText.setForeground(new java.awt.Color(255, 255, 255));
-        UserLevelText.setText("division");
+        AccessLevelText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelText.setText("Level");
 
         javax.swing.GroupLayout BottomPanelLayout = new javax.swing.GroupLayout(BottomPanel);
         BottomPanel.setLayout(BottomPanelLayout);
@@ -352,11 +352,11 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
                 .addGap(18, 18, 18)
                 .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(LoggedAsDesc)
-                    .addComponent(UserLevelDescText))
+                    .addComponent(AccessLevelDescText))
                 .addGap(18, 18, 18)
                 .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(FullNameText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UserLevelText, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE))
+                    .addComponent(AccessLevelText, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE))
                 .addContainerGap())
         );
         BottomPanelLayout.setVerticalGroup(
@@ -371,8 +371,8 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
                             .addComponent(FullNameText))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(UserLevelText)
-                            .addComponent(UserLevelDescText)))
+                            .addComponent(AccessLevelText)
+                            .addComponent(AccessLevelDescText)))
                     .addComponent(LogOutBtnBg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -787,7 +787,7 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
         // TODO add your handling code here:
         // <editor-fold defaultstate="collapsed" desc="Logged Out Codes Process">
         AppWindow.Switch(new Login(), this);
-        ProcessLog.LogOut(EmployeeInfo.getEmployee_id());
+        ProcessLogData.LogOut(EmployeeInfo.getEmployee_id());
         //</editor-fold>
     }//GEN-LAST:event_LogOutBtnBgMouseReleased
 
@@ -827,14 +827,14 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AccessLevelDescText;
+    private javax.swing.JLabel AccessLevelText;
     private javax.swing.JPanel BottomPanel;
     private javax.swing.JLabel FullNameText;
     private javax.swing.JPanel LogOutBtnBg;
     private javax.swing.JLabel LogOutText;
     private javax.swing.JLabel LoggedAsDesc;
     private javax.swing.JMenu Maintenance;
-    private javax.swing.JLabel UserLevelDescText;
-    private javax.swing.JLabel UserLevelText;
     private javax.swing.JMenuItem about;
     private javax.swing.JMenuItem accounts;
     private javax.swing.JMenuItem adjusment;
@@ -870,9 +870,9 @@ public class AdminWindow extends javax.swing.JFrame implements IRetrieveDetails 
     private javax.swing.JMenuItem philhealth;
     private javax.swing.JMenuItem philheathreport;
     private javax.swing.JMenuItem position;
-    private javax.swing.JTable rectable;
     private javax.swing.JMenuItem sss;
     private javax.swing.JMenuItem sssreport;
+    private javax.swing.JTable tableData;
     private javax.swing.JMenuItem tax;
     private javax.swing.JMenuItem taxreport;
     private javax.swing.JMenu timemonitoring;

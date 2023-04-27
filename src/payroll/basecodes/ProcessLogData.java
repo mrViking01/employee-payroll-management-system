@@ -8,7 +8,7 @@ package payroll.basecodes;
  *
  * @author PLATA
  */
-public class ProcessLog{
+public class ProcessLogData{
     
     static DataType[] values;
 

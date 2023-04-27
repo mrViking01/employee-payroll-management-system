@@ -20,6 +20,8 @@ public class Database {
     
     public final static String accountView = "accountdetails";
     public final static String timeLogView = "timelogdetails";
+    public final static String employeeCompanyStatusView = "employeecompanystatusdetails";
+
 
     
     public static Connection Connect() {

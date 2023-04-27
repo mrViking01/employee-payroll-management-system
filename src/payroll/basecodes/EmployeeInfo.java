@@ -4,19 +4,22 @@
  * and open the template in the editor.
  */
 package payroll.basecodes;
+
 /**
  *
  * @author ASUS
  */
 public class EmployeeInfo {
 
-    public EmployeeInfo(String employee_id, String employee_full_name) {
+    public EmployeeInfo(String employee_id, String employee_full_name, String employee_access_level) {
         _employee_id = employee_id;
         _employee_full_name = employee_full_name;
+        _employee_access_level = employee_access_level;
     }
 
     private static String _employee_id;
     private static String _employee_full_name;
+    private static String _employee_access_level;
 
     public static String getEmployee_id() {
         return _employee_id;
@@ -34,6 +37,12 @@ public class EmployeeInfo {
         EmployeeInfo._employee_full_name = _employee_full_name;
     }
 
-    
-    
+    public static String getEmployee_access_level() {
+        return _employee_access_level;
+    }
+
+    public static void setEmployee_access_level(String _employee_access_level) {
+        EmployeeInfo._employee_access_level = _employee_access_level;
+    }
+
 }

@@ -10,22 +10,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.Image;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.sql.*;
-import javax.swing.JOptionPane;
-import net.proteanit.sql.DbUtils;
-import payroll.subwins.*;
 import payroll.basecodes.*;
 /**
  *
  * @author ASUS
  */
 public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDetails {
-    ResultSet result;
     DataType[] values;
+    
+    String _employeeID, _employeeFullName;
     
     Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
     Rectangle rectangle = new Rectangle(0,0,dimension.width,dimension.height-40);
@@ -36,10 +30,14 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         SetupWindow();
     }
     
-    public EmployeeWindow(String id, String full_name) {
+    public EmployeeWindow(String id, String full_name, String access_level) {
+        _employeeID = id;
+        _employeeFullName = full_name;
+        
         SetupWindow();
+        
         FullNameText.setText(full_name);
-        EmployeeNameText.setText(full_name);
+        AccessLevelText.setText(access_level);
     }
     
     private void SetupWindow()
@@ -47,14 +45,34 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         initComponents();
         setLocationRelativeTo(null);
 //        setExtendedState(MAXIMIZED_BOTH);
-        RetrieveDetails();
 //        setMaximizedBounds(rectangle);
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
+        RetrieveDetails();
     }
     
     @Override
     public void RetrieveDetails(){
-        
+        ResultSet result;
+        values = new DataType[1];
+            values[0] = new DataType(_employeeID, String.class);
+
+            result = Database.SendQuery("SELECT * FROM " + Database.employeeTable + " WHERE employee_id = ?;", values);
+
+            try {
+                if (result.next()) {
+                    EmployeeIDText.setText(_employeeID);
+                    EmployeeNameText.setText(_employeeFullName);
+                    StatusText.setText(result.getString("employee_status"));
+                    DepartmentText.setText(result.getString("employee_department"));
+//                    byte[] img1 = result.getBytes("employee_photo");
+//                    ImageIcon imageIcon = new ImageIcon(new ImageIcon(img1).getImage().getScaledInstance(img.getWidth(), img.getHeight(), Image.SCALE_SMOOTH));
+//                    Icon.setIcon(imageIcon);
+                } else {
+                    AppWindow.ShowNotification("Wrong user or password");
+                }
+            } catch (SQLException e) {
+                AppWindow.ShowNotification(e);
+            }
 //        try{
 //            conn = db.db();
 //            pst = conn.prepareStatement("Select * FROM payroll_schema.emp_tbl WHERE emp_id = ? and firstname = ? and lastname = ?;");
@@ -143,8 +161,8 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         LogOutText = new javax.swing.JLabel();
         LoggedAsDesc = new javax.swing.JLabel();
         FullNameText = new javax.swing.JLabel();
-        UserLevelDescText = new javax.swing.JLabel();
-        UserLevelText = new javax.swing.JLabel();
+        AccessLevelDescText = new javax.swing.JLabel();
+        AccessLevelText = new javax.swing.JLabel();
         TopPanel = new javax.swing.JPanel();
         EmployeeDetailPanel = new javax.swing.JPanel();
         EmployeeDetailSubPanel = new javax.swing.JPanel();
@@ -207,15 +225,15 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
 
         FullNameText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         FullNameText.setForeground(new java.awt.Color(255, 255, 255));
-        FullNameText.setText("fname");
+        FullNameText.setText("Name");
 
-        UserLevelDescText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        UserLevelDescText.setForeground(new java.awt.Color(255, 255, 255));
-        UserLevelDescText.setText("Access Level:");
+        AccessLevelDescText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelDescText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelDescText.setText("Access Level:");
 
-        UserLevelText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        UserLevelText.setForeground(new java.awt.Color(255, 255, 255));
-        UserLevelText.setText("division");
+        AccessLevelText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelText.setText("Level");
 
         javax.swing.GroupLayout BottomPanelLayout = new javax.swing.GroupLayout(BottomPanel);
         BottomPanel.setLayout(BottomPanelLayout);
@@ -227,11 +245,11 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
                 .addGap(18, 18, 18)
                 .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(LoggedAsDesc)
-                    .addComponent(UserLevelDescText))
+                    .addComponent(AccessLevelDescText))
                 .addGap(18, 18, 18)
                 .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(FullNameText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UserLevelText, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE))
+                    .addComponent(AccessLevelText, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE))
                 .addContainerGap())
         );
         BottomPanelLayout.setVerticalGroup(
@@ -246,8 +264,8 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
                             .addComponent(FullNameText))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(UserLevelText)
-                            .addComponent(UserLevelDescText)))
+                            .addComponent(AccessLevelText)
+                            .addComponent(AccessLevelDescText)))
                     .addComponent(LogOutBtnBg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -260,7 +278,7 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         TopPanel.setLayout(TopPanelLayout);
         TopPanelLayout.setHorizontalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 312, Short.MAX_VALUE)
+            .addGap(0, 481, Short.MAX_VALUE)
         );
         TopPanelLayout.setVerticalGroup(
             TopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -318,7 +336,7 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         StatusText.setText("Active || Not Active");
 
         DepartmentDesc.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        DepartmentDesc.setText("Department");
+        DepartmentDesc.setText("Department:");
 
         DepartmentText.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         DepartmentText.setText("Department");
@@ -328,69 +346,58 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         EmployeeDetailSubPanelLayout.setHorizontalGroup(
             EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(EmployeeIDDesc)
+                    .addComponent(EmployeeNameDesc)
+                    .addComponent(StatusDesc)
+                    .addComponent(DepartmentDesc))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                                .addGap(72, 72, 72)
-                                .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                                .addComponent(EmployeeNameDesc)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(DepartmentDesc)
-                            .addComponent(EmployeeIDDesc)
-                            .addComponent(StatusDesc))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(EmployeeIDText)
-                            .addComponent(StatusText)
-                            .addComponent(DepartmentText))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(EmployeeIDText)
+                    .addComponent(StatusText)
+                    .addComponent(DepartmentText))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         EmployeeDetailSubPanelLayout.setVerticalGroup(
             EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(EmployeeNameDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(EmployeeIDDesc)
-                    .addComponent(EmployeeIDText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(StatusDesc)
-                    .addComponent(StatusText))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(DepartmentDesc)
-                    .addComponent(DepartmentText))
-                .addGap(30, 30, 30))
+                    .addComponent(IconPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(EmployeeDetailSubPanelLayout.createSequentialGroup()
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(EmployeeIDDesc)
+                            .addComponent(EmployeeIDText))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(EmployeeNameDesc, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(EmployeeNameText, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(StatusDesc)
+                            .addComponent(StatusText))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(EmployeeDetailSubPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(DepartmentDesc)
+                            .addComponent(DepartmentText))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout EmployeeDetailPanelLayout = new javax.swing.GroupLayout(EmployeeDetailPanel);
         EmployeeDetailPanel.setLayout(EmployeeDetailPanelLayout);
         EmployeeDetailPanelLayout.setHorizontalGroup(
             EmployeeDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(EmployeeDetailPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(EmployeeDetailSubPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(EmployeeDetailSubPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         EmployeeDetailPanelLayout.setVerticalGroup(
             EmployeeDetailPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EmployeeDetailPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(EmployeeDetailSubPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         getContentPane().add(EmployeeDetailPanel, java.awt.BorderLayout.CENTER);
@@ -414,7 +421,7 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
         // TODO add your handling code here:
         // <editor-fold defaultstate="collapsed" desc="Logged Out Codes Process">
         AppWindow.Switch(new Login(), this);
-        ProcessLog.LogOut(EmployeeInfo.getEmployee_id());
+        ProcessLogData.LogOut(EmployeeInfo.getEmployee_id());
         //</editor-fold>
     }//GEN-LAST:event_LogOutBtnBgMouseReleased
 
@@ -455,6 +462,8 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel AccessLevelDescText;
+    private javax.swing.JLabel AccessLevelText;
     private javax.swing.JPanel BottomPanel;
     private javax.swing.JLabel DepartmentDesc;
     private javax.swing.JLabel DepartmentText;
@@ -473,7 +482,5 @@ public class EmployeeWindow extends javax.swing.JFrame  implements IRetrieveDeta
     private javax.swing.JLabel StatusDesc;
     private javax.swing.JLabel StatusText;
     private javax.swing.JPanel TopPanel;
-    private javax.swing.JLabel UserLevelDescText;
-    private javax.swing.JLabel UserLevelText;
     // End of variables declaration//GEN-END:variables
 }

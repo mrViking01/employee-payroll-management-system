@@ -12,3 +12,8 @@ l.total_time_log as 'Total Time Log',
 l.break_time as 'Break Time', 
 l.overtime as 'Overtime'
 FROM employee_tbl as e left join log_tbl as l on e.employee_id = l.employee_id;
+
+Create view employeeCompanyStatusView as
+SELECT employee_id as 'ID', concat(employee_first_name," ", employee_last_name) AS 'Name',
+employee_department as 'Department', employee_position as 'Position', employee_status as 'Status'
+FROM employee_tbl;

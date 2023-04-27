@@ -5,68 +5,52 @@
  */
 package payroll.main;
 
+import interfaces.IRetrieveDetails;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.sql.*;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
-import payroll.secSubWins.*;
+import payroll.basecodes.*;
 import payroll.subwins.*;
 
 /**
  *
  * @author Hp
  */
-public class ManagerWindow extends javax.swing.JFrame {
+public class ManagerWindow extends javax.swing.JFrame implements IRetrieveDetails{
     Connection conn;
     PreparedStatement pst;
     ResultSet rs;
-    Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-    Rectangle r = new Rectangle(0,0,d.width,d.height-40);
     /**
      * Creates new form ManagerWindow
      */
     public ManagerWindow() {
+        SetupWindow();
+    }
+    public ManagerWindow(String id, String full_name, String access_level) {
+        SetupWindow();
+        FullNameText.setText(full_name);
+        AccessLevelText.setText(access_level);
+    }
+    
+    private void SetupWindow()
+    {
         initComponents();
         setLocationRelativeTo(null);
-        setExtendedState(6);
-        setMaximizedBounds(r);
-        table();
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
+        RetrieveDetails();
     }
-    public ManagerWindow(String usr, String frname, String lsname, String di) {
-        initComponents();
-        setLocationRelativeTo(null);
-        setExtendedState(6);
-        setMaximizedBounds(r);
-        table();
-        firstname.setText(frname);
-        lastname.setText(lsname);
-        level.setText(di);
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("lo.png")));
-    }
-    public void table(){
-        try{
-            conn = db.db();
-            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl ORDER BY date_in desc;");
-            rs = pst.executeQuery();
-            rectable.setModel(DbUtils.resultSetToTableModel(rs));
-        }
-        catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-        }
-        try{
-            conn = db.db();
-            pst = conn.prepareStatement("SELECT emp_id, concat(lastname,', ',firstname, ' ' ,middlename) as employee_name FROM payroll_schema.emp_tbl order by concat(lastname,', ',firstname, ' ' ,middlename);");
-            rs = pst.executeQuery();
-            rectable2.setModel(DbUtils.resultSetToTableModel(rs));
-        }
-        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
+    
+    @Override
+    public void RetrieveDetails(){
+        String timeLogQuery = "SELECT * FROM "+Database.timeLogView+" ORDER BY 'Log In' ASC;";
+        RetrieveData retrieveTimeLogData = new RetrieveData(timeLogQuery, timeLogTableData);
+        retrieveTimeLogData.RetrieveDetails();
+        
+        String employeeCompanyStatusQuery = "SELECT * FROM "+Database.employeeCompanyStatusView+";";
+        RetrieveData retrieveEmployeeData = new RetrieveData(employeeCompanyStatusQuery, employeeTableData);
+        retrieveEmployeeData.RetrieveDetails();
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -77,14 +61,6 @@ public class ManagerWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        LogOut = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        lastname = new javax.swing.JLabel();
-        level = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        firstname = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jCalendar1 = new com.toedter.calendar.JCalendar();
         jPanel1 = new javax.swing.JPanel();
@@ -94,9 +70,10 @@ public class ManagerWindow extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        rectable = new javax.swing.JTable(){
+        timeLogTableData = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
                 return false;
             }
@@ -104,12 +81,19 @@ public class ManagerWindow extends javax.swing.JFrame {
         ;
         jPanel6 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        rectable2 = new javax.swing.JTable(){
+        employeeTableData = new javax.swing.JTable(){
             public boolean isCellEditable(int rowIndex, int colIndex){
                 return false;
             }
         }
         ;
+        BottomPanel = new javax.swing.JPanel();
+        LogOutBtnBg = new javax.swing.JPanel();
+        LogOutText = new javax.swing.JLabel();
+        LoggedAsDesc = new javax.swing.JLabel();
+        FullNameText = new javax.swing.JLabel();
+        AccessLevelDescText = new javax.swing.JLabel();
+        AccessLevelText = new javax.swing.JLabel();
         jMenuBar2 = new javax.swing.JMenuBar();
         Maintenance = new javax.swing.JMenu();
         employee = new javax.swing.JMenuItem();
@@ -144,104 +128,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Manager");
         setUndecorated(true);
-
-        jPanel2.setBackground(new java.awt.Color(59, 89, 152));
-
-        jPanel3.setBackground(new java.awt.Color(102, 153, 255));
-        jPanel3.setToolTipText("Press to Log out now");
-        jPanel3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jPanel3MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jPanel3MouseExited(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                jPanel3MouseReleased(evt);
-            }
-        });
-
-        LogOut.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        LogOut.setForeground(new java.awt.Color(255, 255, 255));
-        LogOut.setText("Log Out");
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(LogOut)
-                .addContainerGap(37, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(LogOut, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Logged In as:");
-
-        lastname.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        lastname.setForeground(new java.awt.Color(255, 255, 255));
-        lastname.setText("lname");
-
-        level.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        level.setForeground(new java.awt.Color(255, 255, 255));
-        level.setText("division");
-
-        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("User Level:");
-
-        firstname.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        firstname.setForeground(new java.awt.Color(255, 255, 255));
-        firstname.setText("fname");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel7)
-                    .addComponent(jLabel9))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(level)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(firstname)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lastname)))
-                .addContainerGap(1072, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel7)
-                            .addComponent(firstname)
-                            .addComponent(lastname))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(level)
-                            .addComponent(jLabel9)))
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-
-        getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
+        setPreferredSize(new java.awt.Dimension(1080, 700));
 
         jDesktopPane1.setBackground(new java.awt.Color(41, 47, 51));
 
@@ -338,11 +225,12 @@ public class ManagerWindow extends javax.swing.JFrame {
         );
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DailyTimeRecord", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Time Logs", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        jPanel4.setVerifyInputWhenFocusTarget(false);
 
         jScrollPane1.setAutoscrolls(true);
 
-        rectable.setModel(new javax.swing.table.DefaultTableModel(
+        timeLogTableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -353,10 +241,8 @@ public class ManagerWindow extends javax.swing.JFrame {
                 "ID", "First Name", "Last Name", "Date In", "Time In", "Date Out", "Time Out", "Status"
             }
         ));
-        rectable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
-        rectable.setShowHorizontalLines(false);
-        rectable.setShowVerticalLines(false);
-        jScrollPane1.setViewportView(rectable);
+        timeLogTableData.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(timeLogTableData);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -364,23 +250,26 @@ public class ManagerWindow extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addContainerGap())
         );
+
+        jTabbedPane1.addTab("Time Logs", jPanel4);
+        jPanel4.getAccessibleContext().setAccessibleName("Time Logs");
 
         jPanel6.setBackground(new java.awt.Color(255, 255, 255));
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Employee", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
 
         jScrollPane3.setAutoscrolls(true);
 
-        rectable2.setModel(new javax.swing.table.DefaultTableModel(
+        employeeTableData.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
@@ -391,9 +280,7 @@ public class ManagerWindow extends javax.swing.JFrame {
                 "ID", "First Name", "Last Name", "Date In", "Time In", "Date Out", "Time Out", "Status"
             }
         ));
-        rectable2.setShowHorizontalLines(false);
-        rectable2.setShowVerticalLines(false);
-        jScrollPane3.setViewportView(rectable2);
+        jScrollPane3.setViewportView(employeeTableData);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -401,21 +288,22 @@ public class ManagerWindow extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 1046, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 284, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        jTabbedPane1.addTab("Employee List", jPanel6);
+
         jDesktopPane1.setLayer(jCalendar1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jDesktopPane1.setLayer(jPanel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jDesktopPane1.setLayer(jPanel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jDesktopPane1.setLayer(jTabbedPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
@@ -427,12 +315,10 @@ public class ManagerWindow extends javax.swing.JFrame {
                     .addGroup(jDesktopPane1Layout.createSequentialGroup()
                         .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 394, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDesktopPane1Layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(511, Short.MAX_VALUE))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -441,14 +327,104 @@ public class ManagerWindow extends javax.swing.JFrame {
                 .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jCalendar1, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 132, Short.MAX_VALUE)
-                .addGroup(jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
+        jTabbedPane1.getAccessibleContext().setAccessibleName("TabOfTables");
+
         getContentPane().add(jDesktopPane1, java.awt.BorderLayout.CENTER);
+
+        BottomPanel.setBackground(new java.awt.Color(59, 89, 152));
+
+        LogOutBtnBg.setBackground(new java.awt.Color(102, 153, 255));
+        LogOutBtnBg.setToolTipText("Press to Log out now");
+        LogOutBtnBg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                LogOutBtnBgMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                LogOutBtnBgMouseExited(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                LogOutBtnBgMouseReleased(evt);
+            }
+        });
+
+        LogOutText.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        LogOutText.setForeground(new java.awt.Color(255, 255, 255));
+        LogOutText.setText("Log Out");
+
+        javax.swing.GroupLayout LogOutBtnBgLayout = new javax.swing.GroupLayout(LogOutBtnBg);
+        LogOutBtnBg.setLayout(LogOutBtnBgLayout);
+        LogOutBtnBgLayout.setHorizontalGroup(
+            LogOutBtnBgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LogOutBtnBgLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LogOutText)
+                .addContainerGap(37, Short.MAX_VALUE))
+        );
+        LogOutBtnBgLayout.setVerticalGroup(
+            LogOutBtnBgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LogOutBtnBgLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogOutText, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+
+        LoggedAsDesc.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        LoggedAsDesc.setForeground(new java.awt.Color(255, 255, 255));
+        LoggedAsDesc.setText("Logged In as:");
+
+        FullNameText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        FullNameText.setForeground(new java.awt.Color(255, 255, 255));
+        FullNameText.setText("Name");
+
+        AccessLevelDescText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelDescText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelDescText.setText("Access Level:");
+
+        AccessLevelText.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        AccessLevelText.setForeground(new java.awt.Color(255, 255, 255));
+        AccessLevelText.setText("Level");
+
+        javax.swing.GroupLayout BottomPanelLayout = new javax.swing.GroupLayout(BottomPanel);
+        BottomPanel.setLayout(BottomPanelLayout);
+        BottomPanelLayout.setHorizontalGroup(
+            BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BottomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LogOutBtnBg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(LoggedAsDesc)
+                    .addComponent(AccessLevelDescText))
+                .addGap(18, 18, 18)
+                .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(FullNameText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(AccessLevelText, javax.swing.GroupLayout.DEFAULT_SIZE, 861, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        BottomPanelLayout.setVerticalGroup(
+            BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BottomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(BottomPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(LoggedAsDesc)
+                            .addComponent(FullNameText))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(BottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(AccessLevelText)
+                            .addComponent(AccessLevelDescText)))
+                    .addComponent(LogOutBtnBg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        getContentPane().add(BottomPanel, java.awt.BorderLayout.PAGE_END);
 
         jMenuBar2.setBorder(null);
         jMenuBar2.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -456,7 +432,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         Maintenance.setText("Maintenance");
         Maintenance.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        employee.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+        employee.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         employee.setText("Employee");
         employee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -465,7 +441,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         Maintenance.add(employee);
 
-        position.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
+        position.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         position.setText("Position");
         position.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -476,7 +452,7 @@ public class ManagerWindow extends javax.swing.JFrame {
 
         contribution.setText("Contribution");
 
-        philhealth.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        philhealth.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         philhealth.setText("PhilHealth");
         philhealth.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -485,7 +461,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         contribution.add(philhealth);
 
-        pagibig.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        pagibig.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         pagibig.setText("Pag-Ibig");
         pagibig.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -494,7 +470,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         contribution.add(pagibig);
 
-        sss.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        sss.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         sss.setText("SSS");
         sss.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -503,7 +479,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         contribution.add(sss);
 
-        tax.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.CTRL_MASK));
+        tax.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.CTRL_DOWN_MASK));
         tax.setText("Tax");
         tax.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -519,7 +495,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         timemonitoring.setText("Time Monitoring");
         timemonitoring.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        dtr.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        dtr.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         dtr.setText("Daily Time Records");
         dtr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -528,7 +504,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         timemonitoring.add(dtr);
 
-        overtime.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        overtime.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         overtime.setText("Over Time");
         overtime.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -537,7 +513,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         timemonitoring.add(overtime);
 
-        leave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        leave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         leave.setText("Leave");
         leave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -551,7 +527,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         transaction.setText("Transaction");
         transaction.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        payroll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        payroll.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         payroll.setText("Payroll");
         payroll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -560,7 +536,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         transaction.add(payroll);
 
-        adjusment.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        adjusment.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         adjusment.setText("Adjustments");
         adjusment.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,7 +545,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         transaction.add(adjusment);
 
-        otherdeduction.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_MASK));
+        otherdeduction.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         otherdeduction.setText("Other Deduction");
         otherdeduction.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -578,7 +554,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         transaction.add(otherdeduction);
 
-        month.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
+        month.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         month.setText("13th Month");
         month.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -592,7 +568,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         jMenu1.setText("Reports");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        payrollreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        payrollreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         payrollreport.setText("Payroll");
         payrollreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -603,7 +579,7 @@ public class ManagerWindow extends javax.swing.JFrame {
 
         jMenu5.setText("Contibution");
 
-        philheathreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        philheathreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_1, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         philheathreport.setText("PhilHealth");
         philheathreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -612,7 +588,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         jMenu5.add(philheathreport);
 
-        sssreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        sssreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_2, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         sssreport.setText("SSS");
         sssreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -621,7 +597,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         jMenu5.add(sssreport);
 
-        taxreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        taxreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_3, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         taxreport.setText("Tax");
         taxreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -630,7 +606,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         jMenu5.add(taxreport);
 
-        pagibigreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        pagibigreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_4, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         pagibigreport.setText("Pag-Ibig");
         pagibigreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -641,7 +617,7 @@ public class ManagerWindow extends javax.swing.JFrame {
 
         jMenu1.add(jMenu5);
 
-        dtrreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        dtrreport.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         dtrreport.setText("Daily Time Records");
         dtrreport.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -650,7 +626,7 @@ public class ManagerWindow extends javax.swing.JFrame {
         });
         jMenu1.add(dtrreport);
 
-        masterlist.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_MASK | java.awt.event.InputEvent.SHIFT_MASK));
+        masterlist.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.ALT_DOWN_MASK | java.awt.event.InputEvent.SHIFT_DOWN_MASK));
         masterlist.setText("Master List of Employee");
         masterlist.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -691,383 +667,163 @@ public class ManagerWindow extends javax.swing.JFrame {
 
     private void employeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_employeeActionPerformed
         // TODO add your handling code here:
-        employee mply = new employee(this, true);
-        mply.setVisible(true);
+        AppWindow.ShowPanel(new employee(this, true));
     }//GEN-LAST:event_employeeActionPerformed
 
     private void positionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positionActionPerformed
         // TODO add your handling code here:
-        position pstn = new position(this, true);
-        pstn.setVisible(true);
+        AppWindow.ShowPanel(new position(this, true));
     }//GEN-LAST:event_positionActionPerformed
 
     private void philhealthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_philhealthActionPerformed
         // TODO add your handling code here:
-        philhealth ph = new philhealth(this,true);
-        ph.setVisible(true);
+        AppWindow.ShowPanel(new philhealth(this, true));
     }//GEN-LAST:event_philhealthActionPerformed
 
     private void pagibigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagibigActionPerformed
         // TODO add your handling code here:
-        pagibig pag = new pagibig(this,true);
-        pag.setVisible(true);
+        AppWindow.ShowPanel(new pagibig(this, true));
     }//GEN-LAST:event_pagibigActionPerformed
 
     private void sssActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sssActionPerformed
         // TODO add your handling code here:
-        sss sss = new sss(this,true);
-        sss.setVisible(true);
+        AppWindow.ShowPanel(new sss(this, true));
     }//GEN-LAST:event_sssActionPerformed
 
     private void taxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taxActionPerformed
         // TODO add your handling code here:
-        tax tax = new tax(this,true);
-        tax.setVisible(true);
+        AppWindow.ShowPanel(new tax(this, true));
     }//GEN-LAST:event_taxActionPerformed
 
     private void dtrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtrActionPerformed
         // TODO add your handling code here:
-        timemonitor tm = new timemonitor(this,true);
-        tm.setVisible(true);
+        AppWindow.ShowPanel(new timemonitor(this, true));
     }//GEN-LAST:event_dtrActionPerformed
 
     private void overtimeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overtimeActionPerformed
         // TODO add your handling code here:
-        overtime ot = new overtime(this,true);
-        ot.setVisible(true);
+        AppWindow.ShowPanel(new overtime(this, true));
     }//GEN-LAST:event_overtimeActionPerformed
 
     private void leaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leaveActionPerformed
         // TODO add your handling code here:
-        leave leave = new leave(this,true);
-        leave.setVisible(true);
+        AppWindow.ShowPanel(new leave(this, true));
     }//GEN-LAST:event_leaveActionPerformed
 
     private void payrollActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payrollActionPerformed
         // TODO add your handling code here:
-        payroll pr = new payroll(this,true);
-        pr.setVisible(true);
+         AppWindow.ShowPanel(new payroll(this, true));
     }//GEN-LAST:event_payrollActionPerformed
 
     private void adjusmentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adjusmentActionPerformed
         // TODO add your handling code here:
-        Adjustment adj = new Adjustment(this, true);
-        adj.setVisible(true);
+        AppWindow.ShowPanel(new Adjustment(this, true));
     }//GEN-LAST:event_adjusmentActionPerformed
 
     private void otherdeductionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_otherdeductionActionPerformed
         // TODO add your handling code here:
-        otherDeduction od = new otherDeduction(this,true);
-        od.setVisible(true);
+        AppWindow.ShowPanel(new otherDeduction(this, true));
     }//GEN-LAST:event_otherdeductionActionPerformed
 
     private void monthActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthActionPerformed
         // TODO add your handling code here:
-        thirteenmonth ttm = new thirteenmonth(this,true);
-        ttm.setVisible(true);
+        AppWindow.ShowPanel(new thirteenmonth(this, true));
     }//GEN-LAST:event_monthActionPerformed
 
     private void payrollreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payrollreportActionPerformed
         // TODO add your handling code here:
-        payrollreport prr = new payrollreport(this,true);
-        prr.setVisible(true);
+        AppWindow.ShowPanel(new payrollreport(this, true));
     }//GEN-LAST:event_payrollreportActionPerformed
 
     private void philheathreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_philheathreportActionPerformed
         // TODO add your handling code here:
-        philhealthreport pr = new philhealthreport(this, true);
-       pr.setVisible(true);
+        AppWindow.ShowPanel(new philhealthreport(this, true));
     }//GEN-LAST:event_philheathreportActionPerformed
 
     private void sssreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sssreportActionPerformed
         // TODO add your handling code here:
-        sssreport pr = new sssreport(this, true);
-       pr.setVisible(true);
+        AppWindow.ShowPanel(new sssreport(this, true));
     }//GEN-LAST:event_sssreportActionPerformed
 
     private void taxreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_taxreportActionPerformed
         // TODO add your handling code here:
-        taxreport pr = new taxreport(this, true);
-       pr.setVisible(true);
+        AppWindow.ShowPanel(new taxreport(this, true));
     }//GEN-LAST:event_taxreportActionPerformed
 
     private void pagibigreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pagibigreportActionPerformed
         // TODO add your handling code here:
-        pagibigreport pr = new pagibigreport(this, true);
-       pr.setVisible(true);
+        AppWindow.ShowPanel(new pagibigreport(this, true));
     }//GEN-LAST:event_pagibigreportActionPerformed
 
     private void dtrreportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dtrreportActionPerformed
         // TODO add your handling code here:
-        timemonitorreport tm = new timemonitorreport(this,true);
-        tm.setVisible(true);
+        AppWindow.ShowPanel(new timemonitorreport(this, true));
     }//GEN-LAST:event_dtrreportActionPerformed
 
     private void masterlistActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_masterlistActionPerformed
         // TODO add your handling code here:
-        mlereport mp = new mlereport(this, true);
-        mp.setVisible(true);
+        AppWindow.ShowPanel(new mlereport(this, true));
     }//GEN-LAST:event_masterlistActionPerformed
 
     private void helpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpActionPerformed
         // TODO add your handling code here:
-        Help hlp = new Help(this,true);
-        hlp.setVisible(true);
+        AppWindow.ShowPanel(new Help(this, true));
     }//GEN-LAST:event_helpActionPerformed
 
     private void aboutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutActionPerformed
         // TODO add your handling code here:
-        About about = new About(this,true);
-        about.setVisible(true);
+        AppWindow.ShowPanel(new About(this, true));
     }//GEN-LAST:event_aboutActionPerformed
-
-    private void jPanel3MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseEntered
-        // TODO add your handling code here:
-        jPanel3.setBackground(Color.BLACK);
-        LogOut.setForeground(Color.white);
-    }//GEN-LAST:event_jPanel3MouseEntered
-
-    private void jPanel3MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseExited
-        // TODO add your handling code here:
-        jPanel3.setBackground(new Color(102,153,255));
-        LogOut.setForeground(Color.WHITE);
-    }//GEN-LAST:event_jPanel3MouseExited
-
-    private void jPanel3MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel3MouseReleased
-        // TODO add your handling code here:
-        // <editor-fold defaultstate="collapsed" desc="Logged Out Codes Process">
-        login login = new login();
-        login.setLocationRelativeTo(null);
-        login.setVisible(true);
-        this.dispose();
-
-        Date cd = GregorianCalendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        String dateString = df.format(cd);
-
-        Date da = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String timeString = sdf.format(da);
-
-        String ds = dateString;
-        String ts = timeString;
-        String id = emp.empid;
-        String fn = emp.empfn;
-        String ln = emp.empln;
-        // <editor-fold defaultstate="collapsed" desc="Logged Out Audit">
-        try{
-            conn = db.db();
-            pst = conn.prepareStatement("SELECT * FROM payroll_schema.timemonitor_tbl WHERE id = ? AND date_in = ? AND time_in = ? ;");
-            pst.setString(1, id);
-            pst.setString(2, time.datein);
-            pst.setString(3, time.timein);
-            rs = pst.executeQuery();
-
-            while(rs.next()){
-                String timein = rs.getString("time_in");
-                String datein = rs.getString("date_in");
-                
-                String hour = timein.substring(0, 2);//first
-                String min = timein.substring(3, 5);//first
-                
-                String hour1 = ts.substring(0, 2);//second
-                String min1 = ts.substring(3, 5);//second
-                
-                Integer hours = Integer.parseInt(hour);//first
-                Integer mins = Integer.parseInt(min);//first
-                
-                Integer hours1 = Integer.parseInt(hour1);//second
-                Integer mins1 = Integer.parseInt(min1);//second
-                    if(hours == hours1){
-                        int timemin = mins1 -mins ;
-                        if(timemin < 60){
-                            int twh = 1;
-                        try{
-                            
-                            conn = db.db();
-                            pst = conn.prepareStatement("update payroll_schema.timemonitor_tbl set date_out = '"+ds+"', time_out='"+ts+"', status = 'Logged Out', twh = "+twh+" where ID = "+id+" AND Status = 'Logged In';");
-                            pst.execute();
-                            this.dispose();
-                        }
-                        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.overtime_tbl values (?,?,?,?,?,?,?,?,?,?);");
-                            pst.setString(1, id);
-                            pst.setString(2, ln);
-                            pst.setString(3, fn);
-                            pst.setString(4, String.valueOf(twh));
-                            pst.setString(5, "No Validation");
-                            pst.setString(6, timein);
-                            pst.setString(7, ts);
-                            pst.setString(8, datein);
-                            pst.setString(9, "Not yet recorded");
-                            pst.setString(10, "No Validation");
-                            pst.execute();
-                        }
-                        catch(Exception e){
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        }
-                        
-                    }else if(hours < hours1 && mins1 <= 30){
-                        int hou = hours1 - hours;
-                        try{
-                            System.out.print(min1);
-                            conn = db.db();
-                            pst = conn.prepareStatement("update payroll_schema.timemonitor_tbl set date_out = '"+ds+"', time_out='"+ts+"', status = 'Logged Out', twh = "+hou+" where ID = "+id+" AND Status = 'Logged In';");
-                            pst.execute();
-                            this.dispose();
-                        }
-                        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.overtime_tbl values (?,?,?,?,?,?,?,?,?,?);");
-                            pst.setString(1, id);
-                            pst.setString(2, ln);
-                            pst.setString(3, fn);
-                            pst.setString(4, String.valueOf(hou));
-                            pst.setString(5, "No Validation");
-                            pst.setString(6, timein);
-                            pst.setString(7, ts);
-                            pst.setString(8, datein);
-                            pst.setString(9, "Not yet recorded");
-                            pst.setString(10, "No Validation");
-                            pst.execute();
-                        }
-                        catch(Exception e){
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                    }else if(hours < hours1 && mins1 > 30){
-                            int hou = hours1 - hours + 1;
-                        try{
-                            System.out.println(hour);
-                            System.out.println(hour1);
-                            System.out.println(min1);
-                            conn = db.db();
-                            pst = conn.prepareStatement("update payroll_schema.timemonitor_tbl set date_out = '"+ds+"', time_out='"+ts+"', status = 'Logged Out', twh = "+hou+" where ID = "+id+" AND Status = 'Logged In';");
-                            pst.execute();
-                            this.dispose();
-                        }
-                        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.overtime_tbl values (?,?,?,?,?,?,?,?,?,?);");
-                            pst.setString(1, id);
-                            pst.setString(2, ln);
-                            pst.setString(3, fn);
-                            pst.setString(4, String.valueOf(hou));
-                            pst.setString(5, "No Validation");
-                            pst.setString(6, timein);
-                            pst.setString(7, ts);
-                            pst.setString(8, datein);
-                            pst.setString(9, "Not yet recorded");
-                            pst.setString(10, "No Validation");
-                            pst.execute();
-                        }
-                        catch(Exception e){
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                        
-                    }else if(hours1 > 0 && hours1 < hours && mins1 > 30){
-                        int twh1 =  ((24 - hours) + hours1)+1;
-                        try{
-                            
-                            conn = db.db();
-                            pst = conn.prepareStatement("update payroll_schema.timemonitor_tbl set date_out = '"+ds+"', time_out='"+ts+"', status = 'Logged Out', twh = "+twh1+" where ID = "+id+" AND Status = 'Logged In';");
-                            pst.execute();
-                            this.dispose();
-                        }
-                        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.overtime_tbl values (?,?,?,?,?,?,?,?,?,?);");
-                            pst.setString(1, id);
-                            pst.setString(2, ln);
-                            pst.setString(3, fn);
-                            pst.setString(4, String.valueOf(twh1));
-                            pst.setString(5, "No Validation");
-                            pst.setString(6, timein);
-                            pst.setString(7, ts);
-                            pst.setString(8, datein);
-                            pst.setString(9, "Not yet recorded");
-                            pst.setString(10, "No Validation");
-                            pst.execute();
-                        }
-                        catch(Exception e){
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                    }else if(hours1 > 0 && hours1 < hours && mins1 < 30){
-                            int twh1 =  (24 - hours) + hours1;
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("update payroll_schema.timemonitor_tbl set date_out = '"+ds+"', time_out='"+ts+"', status = 'Logged Out', twh = "+twh1+" where ID = "+id+" AND Status = 'Logged In';");
-                            pst.execute();
-                            this.dispose();
-                        }
-                        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-                        try{
-                            conn = db.db();
-                            pst = conn.prepareStatement("insert into payroll_schema.overtime_tbl values (?,?,?,?,?,?,?,?,?,?);");
-                            pst.setString(1, id);
-                            pst.setString(2, ln);
-                            pst.setString(3, fn);
-                            pst.setString(4, String.valueOf(twh1));
-                            pst.setString(5, "No Validation");
-                            pst.setString(6, timein);
-                            pst.setString(7, ts);
-                            pst.setString(8, datein);
-                            pst.setString(9, "Not yet recorded");
-                            pst.setString(10, "No Validation");
-                            pst.execute();
-                        }
-                        catch(Exception e){
-                            JOptionPane.showMessageDialog(null, e);
-                        }
-                    }
-            }
-        }
-        catch(Exception e){JOptionPane.showMessageDialog(null, e);}
-
-        // </editor-fold>
-        //</editor-fold>
-    }//GEN-LAST:event_jPanel3MouseReleased
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        payroll pr = new payroll(this,true);
-        pr.setVisible(true);
+        AppWindow.ShowPanel(new payroll(this, true));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        overtime ot = new overtime(this,true);
-        ot.setVisible(true);
+        AppWindow.ShowPanel(new overtime(this, true));
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        employee mply = new employee(this, true);
-        mply.setVisible(true);
+        AppWindow.ShowPanel(new employee(this, true));
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        Help hlp = new Help(this,true);
-        hlp.setVisible(true);
+        AppWindow.ShowPanel(new Help(this, true));
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        mlereport mp = new mlereport(this, true);
-        mp.setVisible(true);
+        AppWindow.ShowPanel(new mlereport(this, true));
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
-        timemonitor tm = new timemonitor(this,true);
-        tm.setVisible(true);
+        AppWindow.ShowPanel(new timemonitor(this, true));
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void LogOutBtnBgMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogOutBtnBgMouseEntered
+        // TODO add your handling code here:
+        LogOutBtnBg.setBackground(Color.red);
+        LogOutText.setForeground(Color.BLACK);
+    }//GEN-LAST:event_LogOutBtnBgMouseEntered
+
+    private void LogOutBtnBgMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogOutBtnBgMouseExited
+        // TODO add your handling code here:
+        LogOutBtnBg.setBackground(new Color(102,153,255));
+        LogOutText.setForeground(Color.WHITE);
+    }//GEN-LAST:event_LogOutBtnBgMouseExited
+
+    private void LogOutBtnBgMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogOutBtnBgMouseReleased
+        // TODO add your handling code here:
+        // <editor-fold defaultstate="collapsed" desc="Logged Out Codes Process">
+        AppWindow.Switch(new Login(), this);
+        ProcessLogData.LogOut(EmployeeInfo.getEmployee_id());
+        //</editor-fold>
+    }//GEN-LAST:event_LogOutBtnBgMouseReleased
 
     /**
      * @param args the command line arguments
@@ -1105,7 +861,13 @@ public class ManagerWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel LogOut;
+    private javax.swing.JLabel AccessLevelDescText;
+    private javax.swing.JLabel AccessLevelText;
+    private javax.swing.JPanel BottomPanel;
+    private javax.swing.JLabel FullNameText;
+    private javax.swing.JPanel LogOutBtnBg;
+    private javax.swing.JLabel LogOutText;
+    private javax.swing.JLabel LoggedAsDesc;
     private javax.swing.JMenu Maintenance;
     private javax.swing.JMenuItem about;
     private javax.swing.JMenuItem adjusment;
@@ -1113,7 +875,7 @@ public class ManagerWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem dtr;
     private javax.swing.JMenuItem dtrreport;
     private javax.swing.JMenuItem employee;
-    private javax.swing.JLabel firstname;
+    private javax.swing.JTable employeeTableData;
     private javax.swing.JMenuItem help;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -1123,22 +885,17 @@ public class ManagerWindow extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JDesktopPane jDesktopPane1;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JLabel lastname;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem leave;
-    private javax.swing.JLabel level;
     private javax.swing.JMenuItem masterlist;
     private javax.swing.JMenuItem month;
     private javax.swing.JMenuItem otherdeduction;
@@ -1150,12 +907,11 @@ public class ManagerWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem philhealth;
     private javax.swing.JMenuItem philheathreport;
     private javax.swing.JMenuItem position;
-    private javax.swing.JTable rectable;
-    private javax.swing.JTable rectable2;
     private javax.swing.JMenuItem sss;
     private javax.swing.JMenuItem sssreport;
     private javax.swing.JMenuItem tax;
     private javax.swing.JMenuItem taxreport;
+    private javax.swing.JTable timeLogTableData;
     private javax.swing.JMenu timemonitoring;
     private javax.swing.JMenu transaction;
     // End of variables declaration//GEN-END:variables
